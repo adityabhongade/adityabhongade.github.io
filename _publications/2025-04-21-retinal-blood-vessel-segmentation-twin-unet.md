@@ -1,12 +1,12 @@
 ---
-title: "Paper Title Number 4"
+title: "Retinal Blood Vessel Segmentation Using Twin U-Net based Deep Learning Architecture"
 collection: publications
 category: conferences
-permalink: /publication/2024-02-17-paper-title-number-4
-excerpt: 'This paper is about fixing template issue #693.'
-date: 2024-02-17
-venue: 'GitHub Journal of Bugs'
-paperurl: 'http://academicpages.github.io/files/paper3.pdf'
+permalink: /publication/2025-04-21-retinal-blood-vessel-segmentation-twin-unet
+excerpt: 'We propose a Twin U-Net model for segmenting retinal blood vessels from eye images. The proposed network achieves superior performance over existing methods on the DRIVE dataset.'
+date: 2025-04-21
+venue: '2024 IEEE 21st India Council International Conference (INDICON)'
+paperurl: 'https://ieeexplore.ieee.org/abstract/document/10958322'
 citation: 'Your Name, You. (2024). &quot;Paper Title Number 3.&quot; <i>GitHub Journal of Bugs</i>. 1(3).'
 ---
 
