@@ -1,0 +1,14 @@
+- title: "Title of Your Research Paper"
+  authors: "Author 1, Your Name, Author 3"
+  venue: "Conference/Journal Name, 2024"
+  description: "Brief description of the paper's contribution and key findings."
+  
+- title: "Another Important Publication"
+  authors: "Your Name, Co-author Name"
+  venue: "Conference/Journal Name, 2023"
+  description: "Summary of the research and its impact on the field."
+  
+- title: "Third Publication Title"
+  authors: "Co-author, Your Name, Another Co-author"
+  venue: "Conference/Journal Name, 2023"
+  description: "Description of research methodology and outcomes."
