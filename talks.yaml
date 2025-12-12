@@ -2,13 +2,3 @@
   event: "Faculty Development Programme on Data Analysis and Python, Nagpur, India"
   link: "https://doi.org/10.5281/zenodo.16733198"
   description: "This presentation was part of an FDP."
-  
-- title: "Building Scalable Research Infrastructure"
-  event: "University Research Symposium, March 2024"
-  link: "https://docs.google.com/presentation/d/your-presentation-id"
-  description: "Keynote talk on designing and implementing scalable computing infrastructure for large-scale research projects. Shared lessons learned from multi-institutional collaborations."
-  
-- title: "Introduction to Deep Learning"
-  event: "Workshop Series, Department Seminar, 2023"
-  link: ""
-  description: "Educational workshop for graduate students covering fundamental concepts in deep learning, including neural network architectures, training techniques, and practical applications."
