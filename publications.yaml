@@ -12,6 +12,13 @@
   link: "https://doi.org/10.3390/diagnostics14242770"
   description: ""
 
+- title: "LivSCP: Improving Liver Fibrosis Classification through Supervised Contrastive Pretraining"
+  authors: "Yogita Dubey, Aditya Bhongade, Punit Fulzele"
+  venue: "Diagnostics, 2025"
+  tag: "Journal Article"
+  link: ""
+  description: "In press"
+
 - title: "LightSeg: A Lightweight Transformer Based Network for Lung Segmentation in Chest X-Rays"
   authors: "Aditya Bhongade, Yogita Dubey, Punit Fulzele"
   venue: "IEEE 6th India Council International Subsections Conference (INDISCON), 2025"
