@@ -85,14 +85,14 @@
             text-align: justify;
         }
 
-        .publication, .project, .education-item, .talk {
+        .publication, .project, .education-item, .talk, .membership {
             margin-bottom: 2rem;
             padding: 1.5rem;
             background: #f8f9fa;
             border-left: 4px solid #901A1E;
         }
 
-        .publication-title, .project-title, .talk-title {
+        .publication-title, .project-title, .talk-title, .membership-title {
             font-weight: bold;
             color: #2c3e50;
             font-size: 1.1rem;
@@ -187,6 +187,7 @@
             <li><a href="#publications">Publications</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#talks">Talks</a></li>
+            <li><a href="#memberships">Memberships</a></li>
             <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -218,6 +219,11 @@
         <div id="talks-list"><p class="loading">Loading talks...</p></div>
     </section>
 
+    <section id="memberships">
+        <h2>Memberships</h2>
+        <div id="memberships-list"><p class="loading">Loading memberships...</p></div>
+    </section>
+
     <section id="education">
         <h2>Education</h2>
         
@@ -240,7 +246,6 @@
     </section>
 
     <script>
-        // Load and parse YAML files
         async function loadYAML(filename) {
             try {
                 const response = await fetch(filename);
@@ -252,7 +257,6 @@
             }
         }
 
-        // Render publications
         async function loadPublications() {
             const publications = await loadYAML('publications.yaml');
             const publicationsList = document.getElementById('publications-list');
@@ -280,7 +284,6 @@
             });
         }
 
-        // Render projects
         async function loadProjects() {
             const projects = await loadYAML('projects.yaml');
             const projectsList = document.getElementById('projects-list');
@@ -303,7 +306,6 @@
             });
         }
 
-        // Render talks
         async function loadTalks() {
             const talks = await loadYAML('talks.yaml');
             const talksList = document.getElementById('talks-list');
@@ -328,14 +330,37 @@
             });
         }
 
-        // Load data when page loads
+        async function loadMemberships() {
+            const memberships = await loadYAML('memberships.yaml');
+            const membershipsList = document.getElementById('memberships-list');
+            
+            if (!memberships || memberships.length === 0) {
+                membershipsList.innerHTML = '<p class="loading">No memberships found.</p>';
+                return;
+            }
+
+            membershipsList.innerHTML = '';
+            memberships.forEach(membership => {
+                const div = document.createElement('div');
+                div.className = 'membership';
+                const linkHTML = membership.link ? `<a href="${membership.link}" class="publication-link" target="_blank">View More →</a>` : '';
+                div.innerHTML = `
+                    <div class="membership-title">${membership.organization}</div>
+                    <div class="date">${membership.role || ''} ${membership.duration ? '| ' + membership.duration : ''}</div>
+                    ${linkHTML}
+                    <p>${membership.description}</p>
+                `;
+                membershipsList.appendChild(div);
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             loadPublications();
             loadProjects();
             loadTalks();
+            loadMemberships();
         });
 
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
