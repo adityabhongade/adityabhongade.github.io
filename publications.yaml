@@ -38,7 +38,7 @@
   venue: "2024 IEEE 21st India Council International Conference (INDICON), 2024"
   tag: "Conference Proceedings"
   link: "https://ieeexplore.ieee.org/document/10958322"
-  description: ""+
+  description: ""
 
 - title: "An Efficient and Explainable Model for Heart Disease Classification using Boosting Algorithms"
   authors: "Aditya Bhongade, Yogita Dubey, Prachi Palsodkar, Punit Fulzele"
@@ -46,10 +46,3 @@
   tag: "Conference Proceedings"
   link: "https://ieeexplore.ieee.org/document/11140243"
   description: ""
-  
-- title: "Third Publication Title"
-  authors: "Co-author, Aditya Bhongade, Another Co-author"
-  venue: "Handbook of Research Methods, 2023"
-  tag: "Book Chapter"
-  link: ""
-  description: "Description of research methodology and outcomes."
