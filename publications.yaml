@@ -1,8 +1,22 @@
+- title: "LivSCP: Improving Liver Fibrosis Classification through Supervised Contrastive Pretraining"
+  authors: "Yogita Dubey, Aditya Bhongade, Punit Fulzele"
+  venue: "Diagnostics, 2025"
+  tag: "Journal Article"
+  link: "https://www.mdpi.com/2075-4418/15/24/3226"
+  description: "Q1 Journal"
+
 - title: "Explainable Vision Ensemble for Alzheimer’s Disease Classification using Brain MRI"
   authors: "Aditya Bhongade, Yogita Dubey, Punit Fulzele"
   venue: "IEEE 6th India Council International Subsections Conference (INDISCON), 2025"
   tag: "Conference Proceedings"
   link: "https://ieeexplore.ieee.org/document/11251953"
+  description: ""
+
+- title: "LightSeg: A Lightweight Transformer Based Network for Lung Segmentation in Chest X-Rays"
+  authors: "Aditya Bhongade, Yogita Dubey, Punit Fulzele"
+  venue: "IEEE 6th India Council International Subsections Conference (INDISCON), 2025"
+  tag: "Conference Proceedings"
+  link: "https://ieeexplore.ieee.org/document/11253558"
   description: ""
   
 - title: "Efficient Explainable Models for Alzheimer’s Disease Classification with Feature Selection and Data Balancing Approach Using Ensemble Learning"
@@ -12,19 +26,19 @@
   link: "https://doi.org/10.3390/diagnostics14242770"
   description: "Q1 Journal"
 
-- title: "LivSCP: Improving Liver Fibrosis Classification through Supervised Contrastive Pretraining"
-  authors: "Yogita Dubey, Aditya Bhongade, Punit Fulzele"
-  venue: "Diagnostics, 2025"
+- title: "Robust and Explainable Ensemble Based Framework for Liver Disease Classification using Data Balancing and Upsampling"
+  authors: "Aditya Bhongade, Yogita Dubey, Prachi Palsodkar, Punit Fulzele"
+  venue: "International Journal of Electronics and Communication Engineering, 2025"
   tag: "Journal Article"
-  link: "https://www.mdpi.com/2075-4418/15/24/3226"
-  description: "Q1 Journal"
-
-- title: "LightSeg: A Lightweight Transformer Based Network for Lung Segmentation in Chest X-Rays"
-  authors: "Aditya Bhongade, Yogita Dubey, Punit Fulzele"
-  venue: "IEEE 6th India Council International Subsections Conference (INDISCON), 2025"
-  tag: "Conference Proceedings"
-  link: "https://ieeexplore.ieee.org/document/11253558"
+  link: "https://www.internationaljournalssrg.org/IJECE/paper-details?Id=789"
   description: ""
+
+- title: "Retinal Blood Vessel Segmentation Using Twin U-Net based Deep Learning Architecture"
+  authors: "Aditya Bhongade, Yogita Dubey, Nita Nimbarte, Punit Fulzele"
+  venue: "2024 IEEE 21st India Council International Conference (INDICON), 2024"
+  tag: "Conference Proceedings"
+  link: "https://ieeexplore.ieee.org/document/10958322"
+  description: ""+
 
 - title: "An Efficient and Explainable Model for Heart Disease Classification using Boosting Algorithms"
   authors: "Aditya Bhongade, Yogita Dubey, Prachi Palsodkar, Punit Fulzele"
