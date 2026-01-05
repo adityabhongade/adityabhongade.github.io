@@ -24,10 +24,10 @@
         }
         .slideshow-item {
             display: none;
-            position: relative;
+            flex-direction: column;
         }
         .slideshow-item.active {
-            display: block;
+            display: flex;
             animation: fadeIn 1s;
         }
         .slideshow-image {
@@ -36,16 +36,13 @@
             object-fit: cover;
         }
         .slideshow-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 12px;
+            width: 100%;
+            color: #374151;
+            padding: 12px 0;
             text-align: center;
             font-size: 0.95rem;
-            backdrop-filter: blur(4px);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-style: italic;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -168,7 +165,8 @@
                 const img = document.createElement('img');
                 img.src = photoFolder + (photo.file || photo);
                 img.className = 'slideshow-image';
-                
+                item.appendChild(img);
+
                 if (photo.caption) {
                     const cap = document.createElement('div');
                     cap.className = 'slideshow-caption';
@@ -176,7 +174,6 @@
                     item.appendChild(cap);
                 }
 
-                item.appendChild(img);
                 slideshow.appendChild(item);
             });
 
