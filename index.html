@@ -13,6 +13,29 @@
         .page-content.active {
             display: block;
         }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .slideshow-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: none;
+        }
+        .slideshow-image.active {
+            display: block;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -59,6 +82,12 @@
                 <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
                     Biography
                 </h2>
+                
+                <!-- Photo Slideshow -->
+                <div class="slideshow-container mb-8" id="slideshow">
+                    <!-- Images will be loaded here dynamically -->
+                </div>
+
                 <div class="space-y-4 text-gray-700 leading-relaxed">
                     <p>
                         I am an undergraduate student pursuing Bachelor of Technology in Electronics and 
@@ -200,6 +229,72 @@
     </main>
 
     <script>
+        // Slideshow functionality
+        let currentSlide = 0;
+        let slideInterval;
+        const photoFolder = './photos/';
+
+        async function loadPhotoList() {
+            try {
+                const response = await fetch('photos.json');
+                const data = await response.json();
+                return data.photos || [];
+            } catch (error) {
+                console.error('Error loading photos.json:', error);
+                return [];
+            }
+        }
+
+        async function initSlideshow() {
+            const slideshow = document.getElementById('slideshow');
+            const photoFiles = await loadPhotoList();
+            
+            if (photoFiles.length === 0) {
+                slideshow.innerHTML = '<p class="text-gray-600 italic text-center py-8">No photos available</p>';
+                return;
+            }
+            
+            slideshow.innerHTML = '';
+            
+            photoFiles.forEach((photo, index) => {
+                const img = document.createElement('img');
+                img.src = photoFolder + photo;
+                img.className = 'slideshow-image';
+                img.alt = `Photo ${index + 1}`;
+                img.onerror = function() {
+                    console.error(`Failed to load image: ${photo}`);
+                    this.style.display = 'none';
+                };
+                if (index === 0) {
+                    img.classList.add('active');
+                }
+                slideshow.appendChild(img);
+            });
+
+            startSlideshow();
+        }
+
+        function showSlide(index) {
+            const images = document.querySelectorAll('.slideshow-image');
+            
+            images.forEach(img => img.classList.remove('active'));
+            
+            currentSlide = (index + images.length) % images.length;
+            images[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function startSlideshow() {
+            slideInterval = setInterval(nextSlide, 3000); // Change image every 3 seconds
+        }
+
+        function stopSlideshow() {
+            clearInterval(slideInterval);
+        }
+
         // Page navigation
         function showPage(pageId) {
             // Hide all pages
@@ -357,6 +452,7 @@
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
             showPage('bio');
+            initSlideshow();
             loadPublications();
             loadProjects();
             loadTalks();
