@@ -4,248 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya Bhongade - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .page-content {
+            display: none;
         }
-
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fff;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #901A1E;
-            padding: 1rem 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: #ecf0f1;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #ffd700;
-        }
-
-        section {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 5rem 2rem 3rem;
-            min-height: 100vh;
-        }
-
-        section:first-of-type {
-            padding-top: 8rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #2c3e50;
-            border-bottom: 3px solid #901A1E;
-            padding-bottom: 0.5rem;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #2c3e50;
-            border-bottom: 2px solid #901A1E;
-            padding-bottom: 0.5rem;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            margin: 1.5rem 0 0.5rem;
-            color: #34495e;
-        }
-
-        p {
-            margin-bottom: 1rem;
-            text-align: justify;
-        }
-
-        .publication, .project, .education-item, .talk, .membership {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-left: 4px solid #901A1E;
-        }
-
-        .publication-title, .project-title, .talk-title, .membership-title {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1rem;
-        }
-
-        .publication-tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border-radius: 4px;
-            background: #901A1E;
-            color: white;
-        }
-
-        .publication-link {
-            display: inline-block;
-            margin: 0.5rem 0;
-            color: #901A1E;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .publication-link:hover {
-            text-decoration: underline;
-        }
-
-        .authors, .venue, .date, .talk-event {
-            color: #7f8c8d;
-            font-style: italic;
-            margin: 0.3rem 0;
-        }
-
-        .talk-link {
-            display: inline-block;
-            margin: 0.5rem 0;
-            color: #901A1E;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .talk-link:hover {
-            text-decoration: underline;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .contact-info a {
-            color: #901A1E;
-            text-decoration: none;
-        }
-
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-
-        .loading {
-            color: #7f8c8d;
-            font-style: italic;
-        }
-
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            section {
-                padding: 4rem 1rem 2rem;
-            }
+        .page-content.active {
+            display: block;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="#bio">Bio</a></li>
-            <li><a href="#publications">Publications</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#talks">Talks</a></li>
-            <li><a href="#memberships">Memberships</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-semibold text-gray-800">Aditya Bhongade</h1>
+                </div>
+                <div class="flex space-x-1" id="nav-buttons">
+                    <button onclick="showPage('bio')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="bio">
+                        Bio
+                    </button>
+                    <button onclick="showPage('publications')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="publications">
+                        Publications
+                    </button>
+                    <button onclick="showPage('projects')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="projects">
+                        Projects
+                    </button>
+                    <button onclick="showPage('talks')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="talks">
+                        Talks
+                    </button>
+                    <button onclick="showPage('memberships')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="memberships">
+                        Memberships
+                    </button>
+                    <button onclick="showPage('education')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="education">
+                        Education
+                    </button>
+                    <button onclick="showPage('contact')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="contact">
+                        Contact
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
 
-    <section id="bio">
-        <h1>Aditya Bhongade</h1>
-        <p><strong>Undergraduate Student</strong> | Yeshwantrao Chavan College of Engineering</p>
-        <p>
-            IEEE Student Member
-        </p>
-        <p>
-            Deep Learning
-        </p>
-    </section>
+    <!-- Main Content Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            
+            <!-- Bio Page -->
+            <div id="bio" class="page-content active">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Biography
+                </h2>
+                <div class="space-y-4 text-gray-700 leading-relaxed">
+                    <p>
+                        I am an undergraduate student pursuing Bachelor of Technology in Electronics and 
+                        Telecommunication Engineering at Yeshwantrao Chavan College of Engineering. My research 
+                        interests lie in the field of Deep Learning and its applications.
+                    </p>
+                    <p>
+                        As an IEEE Student Member, I actively engage with the latest developments in technology 
+                        and contribute to the academic community through research and collaboration.
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Research Interests</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Deep Learning</li>
+                            <li>Machine Learning</li>
+                            <li>Computer Vision</li>
+                            <li>Neural Networks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-    <section id="publications">
-        <h2>Publications</h2>
-        <div id="publications-list"><p class="loading">Loading publications...</p></div>
-    </section>
+            <!-- Publications Page -->
+            <div id="publications" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Publications
+                </h2>
+                <div id="publications-list">
+                    <p class="text-gray-600 italic">Loading publications...</p>
+                </div>
+            </div>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <div id="projects-list"><p class="loading">Loading projects...</p></div>
-    </section>
+            <!-- Projects Page -->
+            <div id="projects" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Projects
+                </h2>
+                <div id="projects-list">
+                    <p class="text-gray-600 italic">Loading projects...</p>
+                </div>
+            </div>
 
-    <section id="talks">
-        <h2>Talks</h2>
-        <div id="talks-list"><p class="loading">Loading talks...</p></div>
-    </section>
+            <!-- Talks Page -->
+            <div id="talks" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Talks & Presentations
+                </h2>
+                <div id="talks-list">
+                    <p class="text-gray-600 italic">Loading talks...</p>
+                </div>
+            </div>
 
-    <section id="memberships">
-        <h2>Memberships</h2>
-        <div id="memberships-list"><p class="loading">Loading memberships...</p></div>
-    </section>
+            <!-- Memberships Page -->
+            <div id="memberships" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Memberships & Affiliations
+                </h2>
+                <div id="memberships-list">
+                    <p class="text-gray-600 italic">Loading memberships...</p>
+                </div>
+            </div>
 
-    <section id="education">
-        <h2>Education</h2>
-        
-        <div class="education-item">
-            <h3>Bachelor of Technology in Electronics and Telecommunication Engineering</h3>
-            <div class="date">Yeshwantrao Chavan College of ENgineering, 2026</div>
-            <p>Pursuing</p>
+            <!-- Education Page -->
+            <div id="education" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Education
+                </h2>
+                <div class="space-y-6">
+                    <div class="border-l-4 border-[#901A1E] pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                            Bachelor of Technology in Electronics and Telecommunication Engineering
+                        </h3>
+                        <p class="text-sm text-gray-600 italic mb-3">
+                            Yeshwantrao Chavan College of Engineering, Expected 2026
+                        </p>
+                        <p class="text-gray-700">
+                            Currently pursuing undergraduate degree with focus on electronics, telecommunications, 
+                            and deep learning applications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Page -->
+            <div id="contact" class="page-content">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">
+                    Contact Information
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">Email</h3>
+                        <div class="space-y-1">
+                            <p>
+                                <a href="mailto:aabhongade@ycce.edu" class="text-[#901A1E] hover:underline">
+                                    aabhongade@ycce.edu
+                                </a>
+                            </p>
+                            <p>
+                                <a href="mailto:adityabhongade24@gmail.com" class="text-[#901A1E] hover:underline">
+                                    adityabhongade24@gmail.com
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-200">
+                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">
+                            Online Profiles
+                        </h3>
+                        <div class="space-y-2">
+                            <p>
+                                <span class="font-medium text-gray-700">GitHub:</span>
+                                <a href="https://github.com/adityabhongade" target="_blank" rel="noopener noreferrer"
+                                   class="text-[#901A1E] hover:underline ml-2">
+                                    github.com/adityabhongade
+                                </a>
+                            </p>
+                            <p>
+                                <span class="font-medium text-gray-700">LinkedIn:</span>
+                                <a href="https://linkedin.com/in/adityabhongade" target="_blank" rel="noopener noreferrer"
+                                   class="text-[#901A1E] hover:underline ml-2">
+                                    linkedin.com/in/adityabhongade
+                                </a>
+                            </p>
+                            <p>
+                                <span class="font-medium text-gray-700">Google Scholar:</span>
+                                <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ&hl" 
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="text-[#901A1E] hover:underline ml-2">
+                                    View Profile
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <div class="contact-info">
-            <p><strong>Email:</strong> <a href="mailto:aabhongade@ycce.edu">aabhongade@ycce.edu</a> | <a href="mailto:adityabhongade24@gmail.com">adityabhongade24@gmail.com</a></p>
-            <!-- <p><strong>Office:</strong> Building Name, Room Number, Institution</p> -->
-            <p><strong>GitHub:</strong> <a href="https://github.com/adityabhongade" target="_blank">github.com/adityabhongade</a></p>
-            <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/adityabhongade" target="_blank">linkedin.com/in/adityabhongade</a></p>
-            <p><strong>Google Scholar:</strong> <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ&hl" target="_blank">View Profile</a></p>
-        </div>
-    </section>
+    </main>
 
     <script>
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation button styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-page') === pageId) {
+                    btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
+                    btn.classList.add('bg-[#901A1E]', 'text-white');
+                } else {
+                    btn.classList.remove('bg-[#901A1E]', 'text-white');
+                    btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+                }
+            });
+        }
+
+        // Load YAML files
         async function loadYAML(filename) {
             try {
                 const response = await fetch(filename);
@@ -262,26 +239,33 @@
             const publicationsList = document.getElementById('publications-list');
             
             if (!publications || publications.length === 0) {
-                publicationsList.innerHTML = '<p class="loading">No publications found.</p>';
+                publicationsList.innerHTML = '<p class="text-gray-600 italic">No publications available yet.</p>';
                 return;
             }
 
             publicationsList.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+            
             publications.forEach(pub => {
                 const div = document.createElement('div');
-                div.className = 'publication';
-                const tagHTML = pub.tag ? `<span class="publication-tag">${pub.tag}</span><br>` : '';
-                const linkHTML = pub.link ? `<a href="${pub.link}" class="publication-link" target="_blank">View Paper →</a><br>` : '';
+                div.className = 'border-l-4 border-[#901A1E] pl-4 py-2';
+                
+                const tagHTML = pub.tag ? `<span class="inline-block px-3 py-1 bg-[#901A1E] text-white text-xs font-medium rounded mb-2">${pub.tag}</span><br>` : '';
+                const linkHTML = pub.link ? `<a href="${pub.link}" target="_blank" rel="noopener noreferrer" class="text-[#901A1E] hover:underline text-sm font-medium inline-block mb-2">View Paper →</a><br>` : '';
+                
                 div.innerHTML = `
                     ${tagHTML}
-                    <div class="publication-title">${pub.title}</div>
-                    <div class="authors">${pub.authors}</div>
-                    <div class="venue">${pub.venue}</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${pub.title}</h3>
+                    <p class="text-sm text-gray-600 italic mb-1">${pub.authors}</p>
+                    <p class="text-sm text-gray-600 italic mb-3">${pub.venue}</p>
                     ${linkHTML}
-                    <p>${pub.description}</p>
+                    <p class="text-gray-700">${pub.description}</p>
                 `;
-                publicationsList.appendChild(div);
+                container.appendChild(div);
             });
+            
+            publicationsList.appendChild(container);
         }
 
         async function loadProjects() {
@@ -289,21 +273,26 @@
             const projectsList = document.getElementById('projects-list');
             
             if (!projects || projects.length === 0) {
-                projectsList.innerHTML = '<p class="loading">No projects found.</p>';
+                projectsList.innerHTML = '<p class="text-gray-600 italic">No projects available yet.</p>';
                 return;
             }
 
             projectsList.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+            
             projects.forEach(proj => {
                 const div = document.createElement('div');
-                div.className = 'project';
+                div.className = 'border-l-4 border-[#901A1E] pl-4 py-2';
                 div.innerHTML = `
-                    <div class="project-title">${proj.title}</div>
-                    <div class="date">Duration: ${proj.duration}</div>
-                    <p>${proj.description}</p>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${proj.title}</h3>
+                    <p class="text-sm text-gray-600 italic mb-3">Duration: ${proj.duration}</p>
+                    <p class="text-gray-700">${proj.description}</p>
                 `;
-                projectsList.appendChild(div);
+                container.appendChild(div);
             });
+            
+            projectsList.appendChild(container);
         }
 
         async function loadTalks() {
@@ -311,23 +300,28 @@
             const talksList = document.getElementById('talks-list');
             
             if (!talks || talks.length === 0) {
-                talksList.innerHTML = '<p class="loading">No talks found.</p>';
+                talksList.innerHTML = '<p class="text-gray-600 italic">No talks available yet.</p>';
                 return;
             }
 
             talksList.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+            
             talks.forEach(talk => {
                 const div = document.createElement('div');
-                div.className = 'talk';
-                const linkHTML = talk.link ? `<a href="${talk.link}" class="talk-link" target="_blank">View Presentation →</a>` : '';
+                div.className = 'border-l-4 border-[#901A1E] pl-4 py-2';
+                const linkHTML = talk.link ? `<a href="${talk.link}" target="_blank" rel="noopener noreferrer" class="text-[#901A1E] hover:underline text-sm font-medium inline-block mb-2">View Presentation →</a><br>` : '';
                 div.innerHTML = `
-                    <div class="talk-title">${talk.title}</div>
-                    <div class="talk-event">${talk.event}</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${talk.title}</h3>
+                    <p class="text-sm text-gray-600 italic mb-3">${talk.event}</p>
                     ${linkHTML}
-                    <p>${talk.description}</p>
+                    <p class="text-gray-700">${talk.description}</p>
                 `;
-                talksList.appendChild(div);
+                container.appendChild(div);
             });
+            
+            talksList.appendChild(container);
         }
 
         async function loadMemberships() {
@@ -335,43 +329,38 @@
             const membershipsList = document.getElementById('memberships-list');
             
             if (!memberships || memberships.length === 0) {
-                membershipsList.innerHTML = '<p class="loading">No memberships found.</p>';
+                membershipsList.innerHTML = '<p class="text-gray-600 italic">No memberships available yet.</p>';
                 return;
             }
 
             membershipsList.innerHTML = '';
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+            
             memberships.forEach(membership => {
                 const div = document.createElement('div');
-                div.className = 'membership';
-                const linkHTML = membership.link ? `<a href="${membership.link}" class="publication-link" target="_blank">View More →</a>` : '';
+                div.className = 'border-l-4 border-[#901A1E] pl-4 py-2';
+                const linkHTML = membership.link ? `<a href="${membership.link}" target="_blank" rel="noopener noreferrer" class="text-[#901A1E] hover:underline text-sm font-medium inline-block mb-2">View More →</a><br>` : '';
+                const durationText = membership.duration ? `| ${membership.duration}` : '';
                 div.innerHTML = `
-                    <div class="membership-title">${membership.organization}</div>
-                    <div class="date">${membership.role || ''} ${membership.duration ? '| ' + membership.duration : ''}</div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${membership.organization}</h3>
+                    <p class="text-sm text-gray-600 italic mb-3">${membership.role || ''} ${durationText}</p>
                     ${linkHTML}
-                    <p>${membership.description}</p>
+                    <p class="text-gray-700">${membership.description}</p>
                 `;
-                membershipsList.appendChild(div);
+                container.appendChild(div);
             });
+            
+            membershipsList.appendChild(container);
         }
 
+        // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
+            showPage('bio');
             loadPublications();
             loadProjects();
             loadTalks();
             loadMemberships();
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
         });
     </script>
 </body>
