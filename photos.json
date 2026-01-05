@@ -1,7 +1,16 @@
 {
   "photos": [
-    "20251029_120411.webp",
-    "20251029_120433.webp",
-    "20251029_120635.webp"
+    {
+      "file": "20251029_120411.webp",
+      "caption": "First photo description"
+    },
+    {
+      "file": "20251029_120433.webp",
+      "caption": "Second photo description"
+    },
+    {
+      "file": "20251029_120635.webp",
+      "caption": "Third photo description"
+    }
   ]
 }
