@@ -255,7 +255,8 @@
             renderList('talks-list', 'talks.yaml', talk => `
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">${talk.title}</h3>
                 <p class="text-sm text-gray-600 italic mb-3">${talk.event}</p>
-                <p class="text-gray-700">${talk.description}</p>
+                ${talk.link ? `<a href="${talk.link}" target="_blank" class="text-[#901A1E] hover:underline text-sm font-medium">View Talk →</a>` : ''}
+                <p class="text-gray-700 mt-2">${talk.description}</p>
             `);
             renderList('memberships-list', 'memberships.yaml', m => `
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">${m.organization}</h3>
