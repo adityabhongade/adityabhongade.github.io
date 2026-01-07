@@ -35,7 +35,7 @@
 
 - title: "Retinal Blood Vessel Segmentation Using Twin U-Net based Deep Learning Architecture"
   authors: "Aditya Bhongade, Yogita Dubey, Nita Nimbarte, Punit Fulzele"
-  venue: "2024 IEEE 21st India Council International Conference (INDICON), 2024"
+  venue: "IEEE 21st India Council International Conference (INDICON), 2024"
   tag: "Conference Proceedings"
   link: "https://ieeexplore.ieee.org/document/10958322"
   description: ""
@@ -45,4 +45,11 @@
   venue: "6th International Conference for Emerging Technology (INCET), 2025"
   tag: "Conference Proceedings"
   link: "https://ieeexplore.ieee.org/document/11140243"
+  description: ""
+
+- title: "Explainable AI Model for Medical Insurance Premium Prediction using Ensemble Learning with SHAP Analysis"
+  authors: "Aditya Bhongade, Yogita Dubey, Prachi Palsodkar, Punit Fulzele"
+  venue: "7th IEEE Pune Section International Conference (PuneCon), 2024"
+  tag: "Conference Proceedings"
+  link: "https://ieeexplore.ieee.org/abstract/document/10895118"
   description: ""
