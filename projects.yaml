@@ -1,4 +1,5 @@
-- title: "LivSafe: Deep Learning-based Liver Fibrosis Grading System with LLM-based Conversational Support."
+- title: "LivSafe: Deep Learning-based Liver Fibrosis Grading System with LLM-based Conversational Support"
+  duration: "December 2024 - December 2025"
   authors: "Aditya Bhongade, Yogita Dubey (Guide)"
   venue: "UG Project"
   description: "LivSafe is an application for doctors and hospitals aiding in automatic grading of liver fibrosis using patients' liver ultrasound scans."
