@@ -48,6 +48,22 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        .citation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #901A1E 0%, #b02228 100%);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(144, 26, 30, 0.2);
+        }
+        .citation-count {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -92,6 +108,12 @@
 
             <div id="publications" class="page-content">
                 <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Publications</h2>
+                <div class="mb-6">
+                    <div class="citation-badge">
+                        <span>Total Citations:</span>
+                        <span class="citation-count" id="citation-count">Loading...</span>
+                    </div>
+                </div>
                 <div id="publications-list"><p class="text-gray-600 italic">Loading publications...</p></div>
             </div>
 
@@ -217,6 +239,30 @@
             } catch (error) { return null; }
         }
 
+        async function fetchGoogleScholarCitations() {
+            try {
+                const userId = 'dhgLCL8AAAAJ';
+                const url = `https://scholar.google.com/citations?user=${userId}&hl=en`;
+                
+                const response = await fetch(url);
+                const html = await response.text();
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const citationElement = doc.querySelector('#gsc_rsb_st tbody tr:first-child td:nth-child(2)');
+                
+                if (citationElement) {
+                    const citations = citationElement.textContent.trim();
+                    document.getElementById('citation-count').textContent = citations;
+                } else {
+                    document.getElementById('citation-count').textContent = 'N/A';
+                }
+            } catch (error) {
+                console.error('Error fetching citation count:', error);
+                document.getElementById('citation-count').textContent = 'N/A';
+            }
+        }
+
         async function renderList(elementId, yamlFile, templateFn) {
             const data = await loadYAML(yamlFile);
             const container = document.getElementById(elementId);
@@ -239,6 +285,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             showPage('bio');
             initSlideshow();
+            fetchGoogleScholarCitations();
             renderList('publications-list', 'publications.yaml', pub => `
                 ${pub.tag ? `<span class="inline-block px-3 py-1 bg-[#901A1E] text-white text-xs font-medium rounded mb-2">${pub.tag}</span><br>` : ''}
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">${pub.title}</h3>
