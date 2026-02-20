@@ -1,3 +1,10 @@
+- title: "Transformer and CNN-Based Lightweight Ensemble for Retinal Disease Classification Using OCT Imaging"
+  authors: "Aditya Bhongade, Yogita Dubey, Punit Fulzele"
+  venue: "TENCON 2025 - 2025 IEEE Region 10 Conference (TENCON), 2025"
+  tag: "Conference Proceedings"
+  link: "https://ieeexplore.ieee.org/document/11375147"
+  description: "Presented in person in Kota Kinabalu, Malaysia"
+
 - title: "LivSCP: Improving Liver Fibrosis Classification through Supervised Contrastive Pretraining"
   authors: "Yogita Dubey, Aditya Bhongade, Punit Fulzele"
   venue: "Diagnostics, 2025"
