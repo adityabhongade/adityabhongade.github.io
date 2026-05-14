@@ -4,238 +4,759 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya Bhongade - Website</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <link rel="preload" href="photos.json" as="fetch" type="application/json" crossorigin="anonymous">
     <style>
+        :root {
+            --maroon: #8f1d21;
+            --maroon-dark: #641114;
+            --cream: #fff7ec;
+            --off-white: #fffdf9;
+            --tangerine: #dd7a21;
+            --ink: #2c1c1d;
+            --muted: #6e5d5b;
+            --line: #eadccd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--off-white);
+            color: var(--ink);
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--maroon);
+            text-decoration-color: rgba(144, 26, 30, 0.3);
+            text-underline-offset: 3px;
+        }
+
+        a:hover {
+            color: var(--maroon-dark);
+            text-decoration-color: var(--tangerine);
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-top: 4px solid var(--maroon);
+            border-bottom: 1px solid var(--line);
+            background: var(--off-white);
+        }
+
+        .header-inner {
+            width: min(940px, calc(100% - 32px));
+            min-height: 60px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 9px 0;
+        }
+
+        .brand {
+            min-width: max-content;
+        }
+
+        .brand-name {
+            margin: 0;
+            color: var(--maroon-dark);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 4px 16px;
+        }
+
+        .nav-btn {
+            min-height: 30px;
+            border: 0;
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            padding: 4px 0;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.91rem;
+            font-weight: 500;
+            transition: border-color 140ms ease, color 140ms ease;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--tangerine);
+            color: var(--maroon-dark);
+        }
+
+        .nav-btn.active {
+            border-color: var(--maroon);
+            background: transparent;
+            color: var(--maroon-dark);
+        }
+
+        .page-wrap {
+            width: min(940px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 36px 0 56px;
+        }
+
+        .content-shell {
+            background: var(--off-white);
+            padding: 0;
+        }
+
         .page-content {
             display: none;
         }
+
         .page-content.active {
             display: block;
         }
+
+        .section-title {
+            margin: 0 0 24px;
+            padding-bottom: 9px;
+            border-bottom: 1px solid var(--line);
+            color: var(--maroon-dark);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.5rem, 3vw, 1.95rem);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 34px;
+            height: 2px;
+            margin-top: 9px;
+            background: var(--tangerine);
+        }
+
+        .bio-copy {
+            max-width: 760px;
+            color: var(--ink);
+            font-size: 1rem;
+            overflow-wrap: anywhere;
+        }
+
+        .bio-layout {
+            display: grid;
+            grid-template-columns: minmax(300px, 0.95fr) minmax(320px, 1fr);
+            gap: clamp(24px, 5vw, 42px);
+            align-items: start;
+        }
+
+        .bio-copy p:first-child {
+            margin-top: 0;
+        }
+
+        .bio-block {
+            margin-top: 24px;
+            padding-top: 22px;
+            border-top: 1px solid var(--line);
+        }
+
+        .bio-block h3 {
+            margin: 0 0 10px;
+            color: var(--maroon-dark);
+            font-size: 1rem;
+            font-weight: 650;
+        }
+
+        .bio-block ul,
+        .entry ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .entry ul {
+            margin-top: 12px;
+        }
+
+        .bio-block li,
+        .entry li {
+            margin: 6px 0;
+        }
+
         .slideshow-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 720px;
+            margin: 0 0 14px;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            background: var(--cream);
         }
+
         .slideshow-item {
             display: none;
             flex-direction: column;
         }
+
         .slideshow-item.active {
             display: flex;
-            animation: fadeIn 1s;
-        }
-        .slideshow-image {
-            width: 100%;
-            height: 400px;
-            object-fit: contain;
-            background: #f3f4f6;
-        }
-        .slideshow-caption {
-            width: 100%;
-            color: #374151;
-            padding: 12px 0;
-            text-align: center;
-            font-size: 0.95rem;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-style: italic;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .citation-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #901A1E 0%, #b02228 100%);
-            color: white;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(144, 26, 30, 0.2);
-        }
-        .citation-count {
-            font-size: 1.1rem;
-            font-weight: 700;
         }
 
-        /* Slideshow controls */
+        .slideshow-image {
+            width: 100%;
+            height: clamp(250px, 36vw, 360px);
+            object-fit: contain;
+            background: var(--cream);
+        }
+
+        .slideshow-caption {
+            width: 100%;
+            color: var(--muted);
+            padding: 10px 14px 12px;
+            text-align: left;
+            font-size: 0.92rem;
+            font-style: italic;
+            background: var(--off-white);
+            border-top: 1px solid var(--line);
+        }
+
         .slideshow-controls {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px 0 4px;
+            justify-content: flex-start;
             flex-wrap: wrap;
+            gap: 7px 10px;
+            margin-bottom: 30px;
         }
-        .slideshow-btn {
+
+        .control-btn {
             display: inline-flex;
+            min-height: 30px;
             align-items: center;
             justify-content: center;
-            background: #901A1E;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 6px 14px;
-            font-size: 0.82rem;
-            font-weight: 600;
+            border: 1px solid var(--maroon);
+            border-radius: 2px;
+            padding: 4px 9px;
+            background: var(--off-white);
+            color: var(--maroon-dark);
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            line-height: 1;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font: inherit;
+            font-size: 0.86rem;
+            font-weight: 500;
+            transition: background 140ms ease, border-color 140ms ease;
         }
-        .slideshow-btn:hover {
-            background: #b02228;
-            transform: translateY(-1px);
+
+        .control-btn:hover {
+            border-color: var(--maroon-dark);
+            background: var(--cream);
         }
-        .slideshow-btn:active {
-            transform: translateY(0);
+
+        .control-btn.secondary {
+            border-color: var(--maroon);
+            background: var(--off-white);
+            color: var(--maroon-dark);
         }
+
+        .control-btn.secondary:hover {
+            border-color: var(--tangerine);
+            background: var(--cream);
+        }
+
         .speed-control {
             display: inline-flex;
+            min-height: 30px;
             align-items: center;
-            gap: 6px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #374151;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            font-weight: 500;
         }
+
         .speed-control select {
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            padding: 5px 8px;
-            font-size: 0.82rem;
-            color: #374151;
-            background: white;
+            min-height: 30px;
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            padding: 4px 8px;
+            background: var(--off-white);
+            color: var(--ink);
+            font: inherit;
             cursor: pointer;
             outline: none;
         }
+
         .speed-control select:focus {
-            border-color: #901A1E;
+            border-color: var(--tangerine);
+        }
+
+        .citation-row {
+            display: block;
+            margin-bottom: 22px;
+        }
+
+        .citation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 7px;
+            padding: 0;
+            background: transparent;
+            color: var(--ink);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .citation-count {
+            min-width: 32px;
+            color: var(--maroon);
+            font-size: 1.02rem;
+            text-align: right;
+        }
+
+        .note {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .entry-list {
+            display: grid;
+            border-top: 1px solid var(--line);
+        }
+
+        .entry {
+            border-bottom: 1px solid var(--line);
+            padding: 17px 0 16px;
+            background: transparent;
+        }
+
+        .entry-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 5px;
+        }
+
+        .entry h3 {
+            margin: 0;
+            color: var(--maroon-dark);
+            font-size: 1.03rem;
+            line-height: 1.35;
+            font-weight: 650;
+            overflow-wrap: anywhere;
+        }
+
+        .tag {
+            flex: 0 0 auto;
+            border: 0;
+            border-radius: 0;
+            padding: 1px 0 0;
+            background: transparent;
+            color: #9a4a0c;
+            font-size: 0.8rem;
+            font-weight: 550;
+            white-space: nowrap;
+        }
+
+        .meta {
+            margin: 4px 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .entry p {
+            margin: 10px 0 0;
+            color: var(--ink);
+            overflow-wrap: anywhere;
+        }
+
+        .entry-actions {
+            margin-top: 12px;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--maroon);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .action-link:hover {
+            color: var(--maroon-dark);
+            text-decoration: underline;
+            text-decoration-color: var(--tangerine);
+        }
+
+        .status-message {
+            margin: 0;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .education-card,
+        .contact-card {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 18px 0;
+            background: transparent;
+        }
+
+        .education-card h3,
+        .contact-card h3 {
+            margin: 0 0 7px;
+            color: var(--ink);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .contact-card a {
+            overflow-wrap: anywhere;
+        }
+
+        .eyebrow {
+            margin: 0 0 9px;
+            color: var(--maroon-dark);
+            font-size: 0.77rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                line-height: 1.55;
+            }
+
+            .site-header {
+                position: sticky;
+            }
+
+            .header-inner {
+                align-items: flex-start;
+                flex-direction: column;
+                width: calc(100% - 24px);
+                max-width: 940px;
+                min-height: 0;
+                gap: 8px;
+                padding: 11px 0 8px;
+            }
+
+            .brand-name {
+                font-size: 1.25rem;
+            }
+
+            .bio-layout {
+                display: block;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                gap: 0 16px;
+                overflow-x: auto;
+                overscroll-behavior-x: contain;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 2px;
+            }
+
+            .nav-buttons::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-btn {
+                flex: 0 0 auto;
+                min-height: 36px;
+                padding: 6px 0 5px;
+                font-size: 0.86rem;
+            }
+
+            .page-wrap {
+                width: calc(100% - 24px);
+                padding: 24px 0 40px;
+            }
+
+            .content-shell {
+                padding-top: 0;
+            }
+
+            .section-title {
+                margin-bottom: 18px;
+                padding-bottom: 8px;
+                font-size: 1.45rem;
+            }
+
+            .slideshow-container {
+                max-width: none;
+                margin-bottom: 10px;
+            }
+
+            .slideshow-image {
+                height: clamp(220px, 68vw, 330px);
+            }
+
+            .slideshow-caption {
+                padding: 9px 11px 11px;
+                font-size: 0.88rem;
+            }
+
+            .slideshow-controls {
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .control-btn {
+                min-height: 36px;
+                padding: 6px 10px;
+            }
+
+            .speed-control {
+                min-height: 36px;
+            }
+
+            .speed-control select {
+                min-height: 36px;
+            }
+
+            .bio-block {
+                margin-top: 20px;
+                padding-top: 18px;
+            }
+
+            .entry {
+                padding: 15px 0 14px;
+            }
+
+            .entry-header,
+            .contact-grid {
+                display: block;
+            }
+
+            .tag {
+                display: inline-flex;
+                margin-top: 9px;
+                white-space: normal;
+            }
+
+            .education-card,
+            .contact-card {
+                padding: 16px 0;
+            }
+
+            .contact-grid > div + div {
+                margin-top: 18px;
+                padding-top: 16px;
+                border-top: 1px solid var(--line);
+            }
+        }
+
+        @media (max-width: 430px) {
+            .header-inner,
+            .page-wrap {
+                width: calc(100% - 20px);
+            }
+
+            .brand-name {
+                font-size: 1.18rem;
+            }
+
+            .nav-buttons {
+                gap: 0 14px;
+            }
+
+            .section-title {
+                font-size: 1.34rem;
+            }
+
+            .bio-copy,
+            .entry,
+            .education-card,
+            .contact-card {
+                font-size: 0.96rem;
+            }
+
+            .slideshow-image {
+                height: clamp(205px, 74vw, 300px);
+            }
+
+            .slideshow-controls {
+                align-items: stretch;
+            }
+
+            .control-btn {
+                flex: 1 1 calc(33.333% - 8px);
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            .speed-control {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .speed-control select {
+                max-width: 190px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <h1 class="text-xl font-semibold text-gray-800">Aditya Bhongade</h1>
-                </div>
-                <div class="flex space-x-1" id="nav-buttons">
-                    <button onclick="showPage('bio')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="bio">Bio</button>
-                    <button onclick="showPage('publications')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="publications">Publications</button>
-                    <button onclick="showPage('projects')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="projects">Projects</button>
-                    <button onclick="showPage('talks')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="talks">Talks</button>
-                    <button onclick="showPage('memberships')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="memberships">Memberships</button>
-                    <button onclick="showPage('education')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="education">Education</button>
-                    <button onclick="showPage('contact')" class="nav-btn px-4 py-2 text-sm font-medium rounded-md transition-colors" data-page="contact">Contact</button>
-                </div>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <h1 class="brand-name">Aditya Bhongade</h1>
             </div>
+            <nav class="nav-buttons" aria-label="Primary navigation">
+                <button type="button" onclick="showPage('bio')" class="nav-btn" data-page="bio">Bio</button>
+                <button type="button" onclick="showPage('experience')" class="nav-btn" data-page="experience">Experience</button>
+                <button type="button" onclick="showPage('publications')" class="nav-btn" data-page="publications">Publications</button>
+                <button type="button" onclick="showPage('projects')" class="nav-btn" data-page="projects">Projects</button>
+                <button type="button" onclick="showPage('talks')" class="nav-btn" data-page="talks">Talks</button>
+                <button type="button" onclick="showPage('memberships')" class="nav-btn" data-page="memberships">Memberships</button>
+                <button type="button" onclick="showPage('education')" class="nav-btn" data-page="education">Education</button>
+                <button type="button" onclick="showPage('contact')" class="nav-btn" data-page="contact">Contact</button>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-8">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-            <div id="bio" class="page-content active">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Biography</h2>
-                <div class="slideshow-container mb-2" id="slideshow"></div>
-                <div class="slideshow-controls mb-6" id="slideshow-controls">
-                    <button class="slideshow-btn" onclick="prevSlide()" title="Previous">&#8592; Prev</button>
-                    <button class="slideshow-btn" id="pause-btn" onclick="togglePause()" title="Pause/Play">⏸ Pause</button>
-                    <button class="slideshow-btn" onclick="nextSlide()" title="Next">Next &#8594;</button>
-                    <div class="speed-control">
-                        <label for="speed-select">Speed:</label>
-                        <select id="speed-select" onchange="changeSpeed(this.value)">
-                            <option value="1500">Fast (1.5s)</option>
-                            <option value="3000" selected>Normal (3s)</option>
-                            <option value="5000">Slow (5s)</option>
-                            <option value="8000">Very Slow (8s)</option>
-                        </select>
+    <main class="page-wrap">
+        <div class="content-shell">
+            <section id="bio" class="page-content active" aria-labelledby="bio-title">
+                <h2 id="bio-title" class="section-title">Biography</h2>
+                <div class="bio-layout">
+                    <div class="bio-media">
+                        <div class="slideshow-container" id="slideshow"></div>
+                        <div class="slideshow-controls" id="slideshow-controls">
+                            <button type="button" class="control-btn secondary" onclick="prevSlide()" title="Previous photo">&larr; Prev</button>
+                            <button type="button" class="control-btn" id="pause-btn" onclick="togglePause()" title="Pause slideshow">Pause</button>
+                            <button type="button" class="control-btn secondary" onclick="nextSlide()" title="Next photo">Next &rarr;</button>
+                            <label class="speed-control" for="speed-select">
+                                Speed
+                                <select id="speed-select" onchange="changeSpeed(this.value)">
+                                    <option value="1500">Fast (1.5s)</option>
+                                    <option value="3000" selected>Normal (3s)</option>
+                                    <option value="5000">Slow (5s)</option>
+                                    <option value="8000">Very Slow (8s)</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bio-copy">
+                        <p>I am an undergraduate student pursuing Bachelor of Technology in Electronics and Telecommunication Engineering at Yeshwantrao Chavan College of Engineering.</p>
+                        <div class="bio-block">
+                            <h3>Research Interests</h3>
+                            <ul>
+                                <li>Deep Learning</li>
+                                <li>Machine Learning</li>
+                                <li>Computer Vision</li>
+                            </ul>
+                        </div>
+                        <p><strong>Technologies:</strong> PyTorch, C++, Python, CUDA, HuggingFace Transformers and Diffusers.</p>
+                        <div class="bio-block">
+                            <h3>Academic Achievements</h3>
+                            <ul>
+                                <li><strong>1st Ranker - Semester 7th:</strong> Secured 9.5/10 SGPA and 1/214 rank.</li>
+                                <li><strong>3rd Ranker - Semester 6th:</strong> Secured 9.4/10 SGPA and 3/214 rank.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="space-y-4 text-gray-700 leading-relaxed">
-                    <p>I am an undergraduate student pursuing Bachelor of Technology in Electronics and Telecommunication Engineering at Yeshwantrao Chavan College of Engineering.</p>
-                    <!-- <p><b>Currently, AI Engineer Intern at</b> <a href="https://mythyaverse.com/"><b>MythyaVerse</b></a><b>.</b></p> -->
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Research Interests</h3>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700">
-                            <li>Deep Learning</li>
-                            <li>Machine Learning</li>
-                            <li>Computer Vision</li>
-                        </ul>
-                    </div>
-                    <p><b>Technologies:</b> PyTorch, C++, Python, CUDA, HuggingFace Transformers and Diffusers.</p>
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Academic Achievements</h3>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700">
-                            <li><b>1st Ranker - Semester 7th</b>: Secured 9.5/10 SGPA and 1/214 rank.</li>
-                            <li><b>3rd Ranker - Semester 6th</b>: Secured 9.4/10 SGPA and 3/214 rank.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            </section>
 
-            <div id="publications" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Publications</h2>
-                <div class="mb-6">
+            <section id="experience" class="page-content" aria-labelledby="experience-title">
+                <h2 id="experience-title" class="section-title">Experience</h2>
+                <div id="experience-list" aria-live="polite"><p class="status-message">Loading experience...</p></div>
+            </section>
+
+            <section id="publications" class="page-content" aria-labelledby="publications-title">
+                <h2 id="publications-title" class="section-title">Publications</h2>
+                <div class="citation-row">
                     <div class="citation-badge">
-                        <span>Citations (from Scholar):</span>
-                        <span class="citation-count" id="citation-count">Loading...</span>
+                        <span>Citations from Scholar</span>
+                        <span class="citation-count" id="citation-count">...</span>
                     </div>
-                    <div class="mt-2 text-sm text-gray-500">
-                        If the count above shows <span class="font-medium italic">N/A</span>, you can view my full citation history on my 
-                        <u><a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ" class="text-[#901A1E] hover:underline font-medium">Google Scholar Profile</a></u>.
+                    <p class="note">
+                        If the count shows <strong>N/A</strong>, view the full citation history on
+                        <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ" target="_blank" rel="noopener">Google Scholar</a>.
+                    </p>
+                </div>
+                <div id="publications-list" aria-live="polite"><p class="status-message">Loading publications...</p></div>
+            </section>
+
+            <section id="projects" class="page-content" aria-labelledby="projects-title">
+                <h2 id="projects-title" class="section-title">Projects</h2>
+                <div id="projects-list" aria-live="polite"><p class="status-message">Loading projects...</p></div>
+            </section>
+
+            <section id="talks" class="page-content" aria-labelledby="talks-title">
+                <h2 id="talks-title" class="section-title">Talks &amp; Presentations</h2>
+                <div id="talks-list" aria-live="polite"><p class="status-message">Loading talks...</p></div>
+            </section>
+
+            <section id="memberships" class="page-content" aria-labelledby="memberships-title">
+                <h2 id="memberships-title" class="section-title">Memberships &amp; Affiliations</h2>
+                <div id="memberships-list" aria-live="polite"><p class="status-message">Loading memberships...</p></div>
+            </section>
+
+            <section id="education" class="page-content" aria-labelledby="education-title">
+                <h2 id="education-title" class="section-title">Education</h2>
+                <div class="education-card">
+                    <h3>Bachelor of Technology in Electronics and Telecommunication Engineering</h3>
+                    <p class="meta">Yeshwantrao Chavan College of Engineering, Expected 2026</p>
+                    <p><strong>Coursework:</strong> Object Oriented Programming, Digital Image Processing, Machine Learning, Deep Learning.</p>
+                </div>
+            </section>
+
+            <section id="contact" class="page-content" aria-labelledby="contact-title">
+                <h2 id="contact-title" class="section-title">Contact Information</h2>
+                <div class="contact-card">
+                    <div class="contact-grid">
+                        <div>
+                            <p class="eyebrow">Email</p>
+                            <p><a href="mailto:aabhongade@ycce.edu">aabhongade@ycce.edu</a></p>
+                            <p><a href="mailto:adityabhongade24@gmail.com">adityabhongade24@gmail.com</a></p>
+                        </div>
+                        <div>
+                            <p class="eyebrow">Profiles</p>
+                            <p>Google Scholar: <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ&hl" target="_blank" rel="noopener">View Profile</a></p>
+                            <p>LinkedIn: <a href="https://linkedin.com/in/adityabhongade" target="_blank" rel="noopener">@adityabhongade</a></p>
+                        </div>
                     </div>
                 </div>
-                <div id="publications-list"><p class="text-gray-600 italic">Loading publications...</p></div>
-            </div>
-
-            <div id="projects" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Projects</h2>
-                <div id="projects-list"><p class="text-gray-600 italic">Loading projects...</p></div>
-            </div>
-
-            <div id="talks" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Talks & Presentations</h2>
-                <div id="talks-list"><p class="text-gray-600 italic">Loading talks...</p></div>
-            </div>
-
-            <div id="memberships" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Memberships & Affiliations</h2>
-                <div id="memberships-list"><p class="text-gray-600 italic">Loading memberships...</p></div>
-            </div>
-
-            <div id="education" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Education</h2>
-                <div class="border-l-4 border-[#901A1E] pl-4 py-2">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Bachelor of Technology in Electronics and Telecommunication Engineering</h3>
-                    <p class="text-sm text-gray-600 italic mb-3">Yeshwantrao Chavan College of Engineering, Expected 2026</p>
-                    <p class="text-gray-700"><b>Coursework:</b> Object Oriented Programming, Digital Image Processing, Machine Learning, Deep Learning.</p>
-                </div>
-            </div>
-
-            <div id="contact" class="page-content">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3 border-b-2 border-[#901A1E]">Contact Information</h2>
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">Email</h3>
-                        <p><a href="mailto:aabhongade@ycce.edu" class="text-[#901A1E] hover:underline">aabhongade@ycce.edu</a></p>
-                        <p><a href="mailto:adityabhongade24@gmail.com" class="text-[#901A1E] hover:underline">adityabhongade24@gmail.com</a></p>
-                        <br>
-                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2">Profiles</h3>
-                        <p>Google Scholar: <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ&hl" class="text-[#901A1E] hover:underline">View Profile</a></p>
-                        <p>LinkedIn: <a href="https://linkedin.com/in/adityabhongade" class="text-[#901A1E] hover:underline">@adityabhongade</a></p>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
     </main>
 
@@ -244,12 +765,41 @@
         let slideInterval;
         let isPaused = false;
         let slideSpeed = 3000;
+
         const photoFolder = './photos/';
+        const contentRenderers = [
+            ['experience-list', 'experience.json', renderExperience],
+            ['publications-list', 'publications.json', renderPublication],
+            ['projects-list', 'projects.json', renderProject],
+            ['talks-list', 'talks.json', renderTalk],
+            ['memberships-list', 'memberships.json', renderMembership]
+        ];
+
+        function escapeHTML(value) {
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function safeUrl(value) {
+            const url = String(value ?? '').trim();
+            return /^(https?:|mailto:)/i.test(url) ? escapeHTML(url) : '';
+        }
+
+        async function loadJSON(filename) {
+            const response = await fetch(filename);
+            if (!response.ok) {
+                throw new Error(`Failed to load ${filename}: ${response.status}`);
+            }
+            return response.json();
+        }
 
         async function loadPhotoList() {
             try {
-                const response = await fetch('photos.json');
-                const data = await response.json();
+                const data = await loadJSON('photos.json');
                 return data.photos || [];
             } catch (error) {
                 console.error('Error loading photos.json:', error);
@@ -260,32 +810,39 @@
         async function initSlideshow() {
             const slideshow = document.getElementById('slideshow');
             const photos = await loadPhotoList();
-            
+
             if (photos.length === 0) {
-                slideshow.innerHTML = '<p class="text-gray-600 italic text-center py-8">No photos available</p>';
+                slideshow.innerHTML = '<p class="status-message">No photos available.</p>';
                 return;
             }
-            
-            slideshow.innerHTML = '';
+
+            const fragment = document.createDocumentFragment();
             photos.forEach((photo, index) => {
                 const item = document.createElement('div');
-                item.className = 'slideshow-item' + (index === 0 ? ' active' : '');
+                item.className = `slideshow-item${index === 0 ? ' active' : ''}`;
 
                 const img = document.createElement('img');
                 img.src = photoFolder + (photo.file || photo);
                 img.className = 'slideshow-image';
+                img.alt = photo.caption || 'Portfolio photo';
+                img.decoding = 'async';
+                img.loading = index === 0 ? 'eager' : 'lazy';
+                if (index === 0) {
+                    img.fetchPriority = 'high';
+                }
                 item.appendChild(img);
 
                 if (photo.caption) {
-                    const cap = document.createElement('div');
-                    cap.className = 'slideshow-caption';
-                    cap.textContent = photo.caption;
-                    item.appendChild(cap);
+                    const caption = document.createElement('div');
+                    caption.className = 'slideshow-caption';
+                    caption.textContent = photo.caption;
+                    item.appendChild(caption);
                 }
 
-                slideshow.appendChild(item);
+                fragment.appendChild(item);
             });
 
+            slideshow.replaceChildren(fragment);
             startSlideshow();
         }
 
@@ -297,8 +854,13 @@
             items[currentSlide].classList.add('active');
         }
 
-        function nextSlide() { showSlide(currentSlide + 1); }
-        function prevSlide() { showSlide(currentSlide - 1); }
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
 
         function startSlideshow() {
             clearInterval(slideInterval);
@@ -307,140 +869,149 @@
 
         function togglePause() {
             const btn = document.getElementById('pause-btn');
+            isPaused = !isPaused;
             if (isPaused) {
-                isPaused = false;
-                btn.textContent = '⏸ Pause';
-                startSlideshow();
-            } else {
-                isPaused = true;
-                btn.textContent = '▶ Play';
+                btn.textContent = 'Play';
+                btn.title = 'Play slideshow';
                 clearInterval(slideInterval);
+            } else {
+                btn.textContent = 'Pause';
+                btn.title = 'Pause slideshow';
+                startSlideshow();
             }
         }
 
         function changeSpeed(value) {
-            slideSpeed = parseInt(value);
+            slideSpeed = parseInt(value, 10);
             if (!isPaused) {
                 startSlideshow();
             }
         }
 
         function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.toggle('active', page.id === pageId);
+            });
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                if (btn.getAttribute('data-page') === pageId) {
-                    btn.classList.add('bg-[#901A1E]', 'text-white');
-                    btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
-                } else {
-                    btn.classList.remove('bg-[#901A1E]', 'text-white');
-                    btn.classList.add('text-gray-700', 'hover:bg-gray-100');
-                }
+                const isActive = btn.dataset.page === pageId;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', String(isActive));
             });
         }
 
-        async function loadYAML(filename) {
+        function renderMeta(parts) {
+            const meta = parts.filter(Boolean).map(escapeHTML).join(' | ');
+            return meta ? `<p class="meta">${meta}</p>` : '';
+        }
+
+        function renderPoints(points) {
+            if (!Array.isArray(points) || points.length === 0) return '';
+            return `<ul>${points.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>`;
+        }
+
+        function renderLink(link, label) {
+            const href = safeUrl(link);
+            return href ? `<div class="entry-actions"><a class="action-link" href="${href}" target="_blank" rel="noopener">${escapeHTML(label)} &rarr;</a></div>` : '';
+        }
+
+        function renderExperience(exp) {
+            return `
+                <div class="entry-header">
+                    <h3>${escapeHTML(exp.title)}</h3>
+                </div>
+                ${renderMeta([exp.organization, exp.duration])}
+                ${exp.description ? `<p>${escapeHTML(exp.description)}</p>` : ''}
+                ${renderPoints(exp.points)}
+            `;
+        }
+
+        function renderPublication(pub) {
+            return `
+                <div class="entry-header">
+                    <h3>${escapeHTML(pub.title)}</h3>
+                    ${pub.tag ? `<span class="tag">${escapeHTML(pub.tag)}</span>` : ''}
+                </div>
+                ${renderMeta([pub.authors, pub.venue])}
+                ${renderLink(pub.link, 'View Paper')}
+                ${pub.description ? `<p>${escapeHTML(pub.description)}</p>` : ''}
+            `;
+        }
+
+        function renderProject(project) {
+            return `
+                <div class="entry-header">
+                    <h3>${escapeHTML(project.title)}</h3>
+                    ${project.venue ? `<span class="tag">${escapeHTML(project.venue)}</span>` : ''}
+                </div>
+                ${renderMeta([project.authors, project.duration])}
+                ${project.description ? `<p>${escapeHTML(project.description)}</p>` : ''}
+            `;
+        }
+
+        function renderTalk(talk) {
+            return `
+                <div class="entry-header">
+                    <h3>${escapeHTML(talk.title)}</h3>
+                </div>
+                ${renderMeta([talk.event])}
+                ${renderLink(talk.link, 'View Talk')}
+                ${talk.description ? `<p>${escapeHTML(talk.description)}</p>` : ''}
+            `;
+        }
+
+        function renderMembership(membership) {
+            return `
+                <div class="entry-header">
+                    <h3>${escapeHTML(membership.organization)}</h3>
+                </div>
+                ${renderMeta([membership.role, membership.duration])}
+                ${membership.description ? `<p>${escapeHTML(membership.description)}</p>` : ''}
+                ${renderLink(membership.link, 'View Organization')}
+            `;
+        }
+
+        async function renderList(elementId, jsonFile, templateFn) {
+            const container = document.getElementById(elementId);
+
             try {
-                const response = await fetch(filename);
-                const text = await response.text();
-                return jsyaml.load(text);
-            } catch (error) { return null; }
+                const data = await loadJSON(jsonFile);
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = '<p class="status-message">No data available.</p>';
+                    return;
+                }
+
+                const listHTML = data.map(item => `<article class="entry">${templateFn(item)}</article>`).join('');
+                container.innerHTML = `<div class="entry-list">${listHTML}</div>`;
+            } catch (error) {
+                console.error(`Error rendering ${jsonFile}:`, error);
+                container.innerHTML = '<p class="status-message">Unable to load data.</p>';
+            }
         }
 
         async function fetchGoogleScholarCitations() {
-        try {
-        const userId = 'dhgLCL8AAAAJ';
-        const url = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://scholar.google.com/citations?user=' + userId + '&hl=en')}`;
-        
-        const response = await fetch(url);
-        const html = await response.text();
-        
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const citationElement = doc.querySelector('#gsc_rsb_st tbody tr:first-child td:nth-child(2)');
-        
-        if (citationElement) {
-            const citations = citationElement.textContent.trim();
-            document.getElementById('citation-count').textContent = citations;
-        } else {
-            document.getElementById('citation-count').textContent = 'N/A';
-        }
-    } catch (error) {
-        console.error('Error fetching citation count:', error);
-        document.getElementById('citation-count').textContent = 'N/A';
-    }
-        }
-        /*async function fetchGoogleScholarCitations() {
             try {
                 const userId = 'dhgLCL8AAAAJ';
-                const url = `https://scholar.google.com/citations?user=${userId}&hl=en`;
-                
+                const source = `https://scholar.google.com/citations?user=${userId}&hl=en`;
+                const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(source)}`;
                 const response = await fetch(url);
                 const html = await response.text();
-                
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+                const doc = new DOMParser().parseFromString(html, 'text/html');
                 const citationElement = doc.querySelector('#gsc_rsb_st tbody tr:first-child td:nth-child(2)');
-                
-                if (citationElement) {
-                    const citations = citationElement.textContent.trim();
-                    document.getElementById('citation-count').textContent = citations;
-                } else {
-                    document.getElementById('citation-count').textContent = 'N/A';
-                }
+                document.getElementById('citation-count').textContent = citationElement ? citationElement.textContent.trim() : 'N/A';
             } catch (error) {
                 console.error('Error fetching citation count:', error);
                 document.getElementById('citation-count').textContent = 'N/A';
             }
-        }*/
-
-        async function renderList(elementId, yamlFile, templateFn) {
-            const data = await loadYAML(yamlFile);
-            const container = document.getElementById(elementId);
-            if (!data || data.length === 0) {
-                container.innerHTML = '<p class="text-gray-600 italic">No data available.</p>';
-                return;
-            }
-            container.innerHTML = '';
-            const listContainer = document.createElement('div');
-            listContainer.className = 'space-y-6';
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'border-l-4 border-[#901A1E] pl-4 py-2';
-                div.innerHTML = templateFn(item);
-                listContainer.appendChild(div);
-            });
-            container.appendChild(listContainer);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             showPage('bio');
             initSlideshow();
-            fetchGoogleScholarCitations();
-            renderList('publications-list', 'publications.yaml', pub => `
-                ${pub.tag ? `<span class="inline-block px-3 py-1 bg-[#901A1E] text-white text-xs font-medium rounded mb-2">${pub.tag}</span><br>` : ''}
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">${pub.title}</h3>
-                <p class="text-sm text-gray-600 italic mb-1">${pub.authors}</p>
-                <p class="text-sm text-gray-600 italic mb-3">${pub.venue}</p>
-                ${pub.link ? `<a href="${pub.link}" target="_blank" class="text-[#901A1E] hover:underline text-sm font-medium">View Paper →</a>` : ''}
-                <p class="text-gray-700 mt-2">${pub.description}</p>
-            `);
-            renderList('projects-list', 'projects.yaml', proj => `
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">${proj.title}</h3>
-                <p class="text-sm text-gray-600 italic mb-3">Duration: ${proj.duration}</p>
-                <p class="text-gray-700">${proj.description}</p>
-            `);
-            renderList('talks-list', 'talks.yaml', talk => `
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">${talk.title}</h3>
-                <p class="text-sm text-gray-600 italic mb-3">${talk.event}</p>
-                ${talk.link ? `<a href="${talk.link}" target="_blank" class="text-[#901A1E] hover:underline text-sm font-medium">View Talk →</a>` : ''}
-                <p class="text-gray-700 mt-2">${talk.description}</p>
-            `);
-            renderList('memberships-list', 'memberships.yaml', m => `
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">${m.organization}</h3>
-                <p class="text-sm text-gray-600 italic mb-3">${m.role || ''} ${m.duration ? '| ' + m.duration : ''}</p>
-                <p class="text-gray-700">${m.description}</p>
-            `);
+            Promise.all(contentRenderers.map(([elementId, file, renderer]) => renderList(elementId, file, renderer)));
+
+            const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 700));
+            scheduleIdle(fetchGoogleScholarCitations);
         });
     </script>
 </body>
