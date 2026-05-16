@@ -1074,7 +1074,8 @@
                     <h3>${renderInlineHTML(pub.title)}</h3>
                     ${pub.tag ? `<span class="tag">${renderInlineHTML(pub.tag)}</span>` : ''}
                 </div>
-                ${renderMeta([pub.authors, pub.venue])}
+                ${pub.authors ? `<p class="meta">${renderInlineHTML(pub.authors)}</p>` : ''}
+                ${pub.venue ? `<p class="meta">${renderInlineHTML(pub.venue)}</p>` : ''}
                 ${renderLink(pub.link, 'View Paper')}
                 ${pub.description ? `<p>${renderInlineHTML(pub.description)}</p>` : ''}
             `;
