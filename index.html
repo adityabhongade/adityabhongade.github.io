@@ -5,8 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#173f3a">
     <title>Aditya Bhongade - Website</title>
+    <meta name="description" content="Academic portfolio of Aditya Amol Bhongade, YCCE student and research intern working in deep learning, machine learning, and computer vision.">
+    <meta name="keywords" content="Aditya Bhongade, Aditya Amol Bhongade, Aditya Bhongade YCCE, Aditya Bhongade scholar, Aditya Bhongade Google Scholar, Aditya Bhongade research, Aditya Bhongade portfolio, YCCE, deep learning, machine learning, computer vision">
+    <meta name="author" content="Aditya Amol Bhongade">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://adityabhongade.github.io/">
+    <meta property="og:type" content="profile">
+    <meta property="og:site_name" content="Aditya Bhongade">
+    <meta property="og:title" content="Aditya Bhongade | Academic Portfolio">
+    <meta property="og:description" content="Academic portfolio of Aditya Amol Bhongade, YCCE student and research intern working in deep learning, machine learning, and computer vision.">
+    <meta property="og:url" content="https://adityabhongade.github.io/">
+    <meta property="og:image" content="https://adityabhongade.github.io/photos/iisc_kiac.webp">
+    <meta property="profile:first_name" content="Aditya">
+    <meta property="profile:last_name" content="Bhongade">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aditya Bhongade | Academic Portfolio">
+    <meta name="twitter:description" content="Academic portfolio of Aditya Amol Bhongade, YCCE student and research intern working in deep learning, machine learning, and computer vision.">
+    <meta name="twitter:image" content="https://adityabhongade.github.io/photos/iisc_kiac.webp">
     <link rel="preload" href="photos.json" as="fetch" type="application/json" crossorigin="anonymous">
     <link rel="preload" href="photos/iisc_kiac.webp" as="image" fetchpriority="high">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Aditya Amol Bhongade",
+            "alternateName": "Aditya Bhongade",
+            "url": "https://adityabhongade.github.io/",
+            "image": "https://adityabhongade.github.io/photos/iisc_kiac.webp",
+            "jobTitle": "Research Intern",
+            "affiliation": {
+                "@type": "CollegeOrUniversity",
+                "name": "Yeshwantrao Chavan College of Engineering"
+            },
+            "worksFor": {
+                "@type": "CollegeOrUniversity",
+                "name": "Indian Institute of Technology Dhanbad"
+            },
+            "knowsAbout": [
+                "Deep Learning",
+                "Machine Learning",
+                "Computer Vision",
+                "PyTorch",
+                "CUDA"
+            ],
+            "sameAs": [
+                "https://scholar.google.com/citations?user=dhgLCL8AAAAJ",
+                "https://linkedin.com/in/adityabhongade",
+                "https://github.com/adityabhongade"
+            ]
+        }
+    </script>
     <style>
         :root {
             --accent: #9f3a2f;
@@ -1029,6 +1077,15 @@
             }
         }
 
+        function preloadContentSections() {
+            contentRendererMap.forEach((config, pageId) => {
+                if (!loadedSections.has(pageId)) {
+                    loadedSections.add(pageId);
+                    renderList(config.elementId, config.file, config.renderer);
+                }
+            });
+        }
+
         function renderMeta(parts) {
             const meta = parts.filter(Boolean).map(renderInlineHTML).join(' | ');
             return meta ? `<p class="meta">${meta}</p>` : '';
@@ -1164,6 +1221,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             showPage('bio');
             initSlideshow();
+
+            const scheduleIdle = window.requestIdleCallback || ((callback) => setTimeout(callback, 500));
+            scheduleIdle(preloadContentSections);
         });
     </script>
 </body>
