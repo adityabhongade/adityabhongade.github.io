@@ -1,10 +1,18 @@
 [
   {
+    "title": "IndiaAI Fellow 2026",
+    "organization": "Government of India",
+    "description": "Awarded with the prestigious IndiaAI Fellowship.",
+    "points": ["<b>Project Title:</b> <i>Energy based Face Matching Model for ID Card Verification</i>"]
+  },
+  {
     "title": "1st Ranker - Semester 7th",
-    "description": "Secured 9.5/10 SGPA and 1/214 rank."
+    "organization": "Yeshwantrao Chavan College of Engineering, Nagpur",
+    "description": "Secured <b>9.5/10 SGPA</b> and <b>1/214 rank</b>."
   },
   {
     "title": "3rd Ranker - Semester 6th",
-    "description": "Secured 9.4/10 SGPA and 3/214 rank."
+    "organization": "Yeshwantrao Chavan College of Engineering, Nagpur",
+    "description": "Secured <b>9.4/10 SGPA</b> and <b>3/214 rank</b>."
   }
 ]

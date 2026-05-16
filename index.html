@@ -706,10 +706,12 @@
                 <button type="button" onclick="showPage('bio')" class="nav-btn" data-page="bio">Bio</button>
                 <button type="button" onclick="showPage('experience')" class="nav-btn" data-page="experience">Experience</button>
                 <button type="button" onclick="showPage('achievements')" class="nav-btn" data-page="achievements">Achievements</button>
+                <button type="button" onclick="showPage('certifications')" class="nav-btn" data-page="certifications">Certifications</button>
                 <button type="button" onclick="showPage('publications')" class="nav-btn" data-page="publications">Publications</button>
                 <button type="button" onclick="showPage('projects')" class="nav-btn" data-page="projects">Projects</button>
                 <button type="button" onclick="showPage('talks')" class="nav-btn" data-page="talks">Talks</button>
                 <button type="button" onclick="showPage('memberships')" class="nav-btn" data-page="memberships">Memberships</button>
+                <button type="button" onclick="showPage('services')" class="nav-btn" data-page="services">Services</button>
                 <button type="button" onclick="showPage('education')" class="nav-btn" data-page="education">Education</button>
                 <button type="button" onclick="showPage('contact')" class="nav-btn" data-page="contact">Contact</button>
             </nav>
@@ -724,9 +726,9 @@
                     <div class="bio-media">
                         <div class="slideshow-container" id="slideshow"></div>
                         <div class="slideshow-controls" id="slideshow-controls">
-                            <button type="button" class="control-btn secondary" onclick="prevSlide()" title="Previous photo">&larr; Prev</button>
+                            <button type="button" class="control-btn secondary" onclick="prevSlide(true)" title="Previous photo">&larr; Prev</button>
                             <button type="button" class="control-btn" id="pause-btn" onclick="togglePause()" title="Pause slideshow">Pause</button>
-                            <button type="button" class="control-btn secondary" onclick="nextSlide()" title="Next photo">Next &rarr;</button>
+                            <button type="button" class="control-btn secondary" onclick="nextSlide(true)" title="Next photo">Next &rarr;</button>
                             <label class="speed-control" for="speed-select">
                                 Speed
                                 <select id="speed-select" onchange="changeSpeed(this.value)">
@@ -763,6 +765,11 @@
                 <div id="achievements-list" aria-live="polite"></div>
             </section>
 
+            <section id="certifications" class="page-content" aria-labelledby="certifications-title">
+                <h2 id="certifications-title" class="section-title">Certifications</h2>
+                <div id="certifications-list" aria-live="polite"></div>
+            </section>
+
             <section id="publications" class="page-content" aria-labelledby="publications-title">
                 <h2 id="publications-title" class="section-title">Publications</h2>
                 <div class="citation-row">
@@ -791,6 +798,11 @@
             <section id="memberships" class="page-content" aria-labelledby="memberships-title">
                 <h2 id="memberships-title" class="section-title">Memberships &amp; Affiliations</h2>
                 <div id="memberships-list" aria-live="polite"><p class="status-message">Loading memberships...</p></div>
+            </section>
+
+            <section id="services" class="page-content" aria-labelledby="services-title">
+                <h2 id="services-title" class="section-title">Services</h2>
+                <div id="services-list" aria-live="polite"></div>
             </section>
 
             <section id="education" class="page-content" aria-labelledby="education-title">
@@ -832,11 +844,13 @@
         const photoFolder = './photos/';
         const contentRenderers = [
             ['experience-list', 'experience.json', renderExperience],
-            ['achievements-list', 'achievements.json', renderAchievement],
+            ['achievements-list', 'achievements.json', renderExperience],
+            ['certifications-list', 'certifications.json', renderCertification],
             ['publications-list', 'publications.json', renderPublication],
             ['projects-list', 'projects.json', renderProject],
             ['talks-list', 'talks.json', renderTalk],
-            ['memberships-list', 'memberships.json', renderMembership]
+            ['memberships-list', 'memberships.json', renderMembership],
+            ['services-list', 'services.json', renderService]
         ];
         const contentRendererMap = new Map(
             contentRenderers.map(([elementId, file, renderer]) => [
@@ -854,6 +868,10 @@
                 .replaceAll('>', '&gt;')
                 .replaceAll('"', '&quot;')
                 .replaceAll("'", '&#39;');
+        }
+
+        function renderInlineHTML(value) {
+            return escapeHTML(value).replace(/&lt;(\/?)(b|u|i)&gt;/gi, '<$1$2>');
         }
 
         function safeUrl(value) {
@@ -937,12 +955,24 @@
             image.removeAttribute('data-src');
         }
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
+        function resetSlideshowTimer() {
+            if (!isPaused) {
+                startSlideshow();
+            }
         }
 
-        function prevSlide() {
+        function nextSlide(resetTimer = false) {
+            showSlide(currentSlide + 1);
+            if (resetTimer) {
+                resetSlideshowTimer();
+            }
+        }
+
+        function prevSlide(resetTimer = false) {
             showSlide(currentSlide - 1);
+            if (resetTimer) {
+                resetSlideshowTimer();
+            }
         }
 
         function startSlideshow() {
@@ -1000,13 +1030,13 @@
         }
 
         function renderMeta(parts) {
-            const meta = parts.filter(Boolean).map(escapeHTML).join(' | ');
+            const meta = parts.filter(Boolean).map(renderInlineHTML).join(' | ');
             return meta ? `<p class="meta">${meta}</p>` : '';
         }
 
         function renderPoints(points) {
             if (!Array.isArray(points) || points.length === 0) return '';
-            return `<ul>${points.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>`;
+            return `<ul>${points.map(point => `<li>${renderInlineHTML(point)}</li>`).join('')}</ul>`;
         }
 
         function renderLink(link, label) {
@@ -1017,60 +1047,82 @@
         function renderExperience(exp) {
             return `
                 <div class="entry-header">
-                    <h3>${escapeHTML(exp.title)}</h3>
+                    <h3>${renderInlineHTML(exp.title)}</h3>
                 </div>
                 ${renderMeta([exp.organization, exp.duration])}
-                ${exp.description ? `<p>${escapeHTML(exp.description)}</p>` : ''}
+                ${exp.description ? `<p>${renderInlineHTML(exp.description)}</p>` : ''}
                 ${renderPoints(exp.points)}
             `;
         }
 
-        function renderAchievement(achievement) {
-            return renderExperience(achievement);
+        function renderCertification(certification) {
+            return `
+                <div class="entry-header">
+                    <h3>${renderInlineHTML(certification.title)}</h3>
+                    ${certification.tag ? `<span class="tag">${renderInlineHTML(certification.tag)}</span>` : ''}
+                </div>
+                ${renderMeta([certification.organization || certification.issuer, certification.date || certification.duration])}
+                ${certification.description ? `<p>${renderInlineHTML(certification.description)}</p>` : ''}
+                ${renderPoints(certification.points)}
+                ${renderLink(certification.link, 'View Certificate')}
+            `;
         }
 
         function renderPublication(pub) {
             return `
                 <div class="entry-header">
-                    <h3>${escapeHTML(pub.title)}</h3>
-                    ${pub.tag ? `<span class="tag">${escapeHTML(pub.tag)}</span>` : ''}
+                    <h3>${renderInlineHTML(pub.title)}</h3>
+                    ${pub.tag ? `<span class="tag">${renderInlineHTML(pub.tag)}</span>` : ''}
                 </div>
                 ${renderMeta([pub.authors, pub.venue])}
                 ${renderLink(pub.link, 'View Paper')}
-                ${pub.description ? `<p>${escapeHTML(pub.description)}</p>` : ''}
+                ${pub.description ? `<p>${renderInlineHTML(pub.description)}</p>` : ''}
             `;
         }
 
         function renderProject(project) {
             return `
                 <div class="entry-header">
-                    <h3>${escapeHTML(project.title)}</h3>
-                    ${project.venue ? `<span class="tag">${escapeHTML(project.venue)}</span>` : ''}
+                    <h3>${renderInlineHTML(project.title)}</h3>
+                    ${project.venue ? `<span class="tag">${renderInlineHTML(project.venue)}</span>` : ''}
                 </div>
                 ${renderMeta([project.authors, project.duration])}
-                ${project.description ? `<p>${escapeHTML(project.description)}</p>` : ''}
+                ${project.description ? `<p>${renderInlineHTML(project.description)}</p>` : ''}
             `;
         }
 
         function renderTalk(talk) {
             return `
                 <div class="entry-header">
-                    <h3>${escapeHTML(talk.title)}</h3>
+                    <h3>${renderInlineHTML(talk.title)}</h3>
                 </div>
                 ${renderMeta([talk.event])}
                 ${renderLink(talk.link, 'View Talk')}
-                ${talk.description ? `<p>${escapeHTML(talk.description)}</p>` : ''}
+                ${talk.description ? `<p>${renderInlineHTML(talk.description)}</p>` : ''}
             `;
         }
 
         function renderMembership(membership) {
             return `
                 <div class="entry-header">
-                    <h3>${escapeHTML(membership.organization)}</h3>
+                    <h3>${renderInlineHTML(membership.organization)}</h3>
                 </div>
                 ${renderMeta([membership.role, membership.duration])}
-                ${membership.description ? `<p>${escapeHTML(membership.description)}</p>` : ''}
+                ${membership.description ? `<p>${renderInlineHTML(membership.description)}</p>` : ''}
                 ${renderLink(membership.link, 'View Organization')}
+            `;
+        }
+
+        function renderService(service) {
+            return `
+                <div class="entry-header">
+                    <h3>${renderInlineHTML(service.title || service.organization)}</h3>
+                    ${service.tag ? `<span class="tag">${renderInlineHTML(service.tag)}</span>` : ''}
+                </div>
+                ${renderMeta([service.organization, service.role, service.duration || service.date])}
+                ${service.description ? `<p>${renderInlineHTML(service.description)}</p>` : ''}
+                ${renderPoints(service.points)}
+                ${renderLink(service.link, 'View Service')}
             `;
         }
 

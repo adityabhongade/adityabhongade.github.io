@@ -10,5 +10,10 @@
     "event": "ISTE-approved Faculty Development Program (FDP) on 'Data Science & Python for Healthcare Innovation and IPR Commercialization'.",
     "link": "https://doi.org/10.5281/zenodo.16733198",
     "description": "I was invited as a guest speaker to deliver a talk on Attention Mechanism, and its applications in healthcare."
+  },
+  {
+    "title": "Oral Presentation: Retinal Blood Vessel Segmentation Using Twin U-Net based Deep Learning Architecture",
+    "event": "Presented at IEEE INDICON 2024, IIT Kharagpur, India",
+    "description": "Presented our paper in person at IEEE INDICON 2024, IIT Kharagpur, India."
   }
 ]
