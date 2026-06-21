@@ -244,6 +244,15 @@
             margin-top: 0;
         }
 
+        .availability-note {
+            margin: 16px 0 0;
+            border-left: 3px solid var(--accent);
+            padding: 11px 14px;
+            background: #fcfbf8;
+            color: var(--forest);
+            font-weight: 650;
+        }
+
         .bio-block {
             margin-top: 24px;
             padding-top: 22px;
@@ -877,7 +886,7 @@
             margin-top: 38px;
         }
 
-        #bio {
+        .media-panel {
             position: sticky;
             top: 132px;
             align-self: start;
@@ -890,12 +899,16 @@
             padding: 22px;
         }
 
-        #bio .section-title {
+        .media-panel + .page-content {
+            margin-top: 0;
+        }
+
+        .media-panel .section-title {
             margin-bottom: 16px;
             font-size: 1.18rem;
         }
 
-        #bio .section-title::after {
+        .media-panel .section-title::after {
             display: none;
         }
 
@@ -1145,7 +1158,7 @@
                 display: block;
             }
 
-            #bio {
+            .media-panel {
                 position: static;
                 max-height: none;
                 overflow: visible;
@@ -1220,7 +1233,7 @@
                 display: block;
             }
 
-            #bio {
+            .media-panel {
                 margin: 0 0 28px;
                 padding: 16px 12px 20px;
                 border-right: 0;
@@ -1230,7 +1243,7 @@
                 background: #fffdf8;
             }
 
-            #bio .section-title {
+            .media-panel .section-title {
                 margin-bottom: 13px;
                 font-size: 1.22rem;
             }
@@ -1337,6 +1350,7 @@
             </div>
             <nav class="nav-buttons" aria-label="Primary navigation">
                 <button type="button" onclick="showPage('bio')" class="nav-btn" data-page="bio">Bio</button>
+                <button type="button" onclick="showPage('updates')" class="nav-btn" data-page="updates">Updates</button>
                 <button type="button" onclick="showPage('experience')" class="nav-btn" data-page="experience">Experience</button>
                 <button type="button" onclick="showPage('achievements')" class="nav-btn" data-page="achievements">Achievements</button>
                 <button type="button" onclick="showPage('certifications')" class="nav-btn" data-page="certifications">Certifications</button>
@@ -1353,8 +1367,7 @@
 
     <main class="page-wrap">
         <div class="content-shell">
-            <section id="bio" class="page-content active" aria-labelledby="bio-title">
-                <h2 id="bio-title" class="section-title">Biography</h2>
+            <section id="media-panel" class="page-content media-panel" aria-label="Selected photos">
                 <div class="bio-layout">
                     <div class="bio-media">
                         <div class="slideshow-container" id="slideshow"></div>
@@ -1373,19 +1386,29 @@
                             </label>
                         </div>
                     </div>
-                    <div class="bio-copy">
-                        <p>I am a Research Intern at the Department of Computer Science and Engineering, IIT Dhanbad, India.</p>
-                        <div class="bio-block">
-                            <h3>Research Interests</h3>
-                            <ul>
-                                <li>Deep Learning</li>
-                                <li>Machine Learning</li>
-                                <li>Computer Vision</li>
-                            </ul>
-                        </div>
-                        <p><strong>Technologies:</strong> PyTorch, C++, Python, CUDA, HuggingFace Transformers and Diffusers.</p>
-                    </div>
                 </div>
+            </section>
+
+            <section id="bio" class="page-content active" aria-labelledby="bio-title">
+                <h2 id="bio-title" class="section-title">Biography</h2>
+                <div class="bio-copy">
+                    <p>I am a Research Intern at the Department of Computer Science and Engineering, IIT Dhanbad, India, under the supervision of Dr. Partha Pratim Roy.</p>
+                    <p class="availability-note">I am looking for full-time research roles (Research Assistant, Associate, Fellow, etc.). Please feel free to <a href="#contact" onclick="showPage('contact')">contact me</a>.</p>
+                    <div class="bio-block">
+                        <h3>Research Interests</h3>
+                        <ul>
+                            <li>Deep Learning</li>
+                            <li>Machine Learning</li>
+                            <li>Computer Vision</li>
+                        </ul>
+                    </div>
+                    <p><strong>Technologies:</strong> PyTorch, C++, Python, CUDA, HuggingFace Transformers and Diffusers.</p>
+                </div>
+            </section>
+
+            <section id="updates" class="page-content" aria-labelledby="updates-title">
+                <h2 id="updates-title" class="section-title">Recent Updates</h2>
+                <div id="updates-list" aria-live="polite"><p class="status-message">Loading updates...</p></div>
             </section>
 
             <section id="experience" class="page-content" aria-labelledby="experience-title">
@@ -1477,6 +1500,7 @@
 
         const photoFolder = './photos/';
         const contentRenderers = [
+            ['updates-list', 'updates.json', renderUpdate],
             ['experience-list', 'experience.json', renderExperience],
             ['achievements-list', 'achievements.json', renderExperience],
             ['certifications-list', 'certifications.json', renderCertification],
@@ -1697,7 +1721,7 @@
                 threshold: [0.08, 0.18, 0.32]
             });
 
-            document.querySelectorAll('.page-content').forEach(section => observer.observe(section));
+            document.querySelectorAll('.page-content:not(.media-panel)').forEach(section => observer.observe(section));
         }
 
         function renderMeta(parts) {
@@ -1713,6 +1737,17 @@
         function renderLink(link, label) {
             const href = safeUrl(link);
             return href ? `<div class="entry-actions"><a class="action-link" href="${href}" target="_blank" rel="noopener">${escapeHTML(label)} &rarr;</a></div>` : '';
+        }
+
+        function renderUpdate(update) {
+            return `
+                <div class="entry-header">
+                    <h3>${renderInlineHTML(update.title)}</h3>
+                    ${update.date ? `<span class="tag">${renderInlineHTML(update.date)}</span>` : ''}
+                </div>
+                ${update.description ? `<p>${renderInlineHTML(update.description)}</p>` : ''}
+                ${renderLink(update.link, 'View Update')}
+            `;
         }
 
         function renderExperience(exp) {
