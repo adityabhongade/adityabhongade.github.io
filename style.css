@@ -130,9 +130,8 @@ a:hover{text-decoration:underline;}
 .entry-list{list-style:none;padding:0;margin:0;}
 .entry-list li{
   padding:14px 0;
-  border-bottom:1px solid var(--border);
+  border-bottom:none;
 }
-.entry-list li:last-child{border-bottom:none;}
 .entry-title{font-weight:600;color:var(--text);}
 .entry-meta{display:block;color:var(--text-dim);font-size:0.9rem;margin-top:2px;}
 
