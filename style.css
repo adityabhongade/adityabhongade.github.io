@@ -135,7 +135,33 @@ a:hover{text-decoration:underline;}
 .entry-title{font-weight:600;color:var(--text);}
 .entry-meta{display:block;color:var(--text-dim);font-size:0.9rem;margin-top:2px;}
 
-footer{
+/* Media slideshow */
+.slideshow{
+  display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap;
+}
+.slide-window{max-width:720px;min-width:280px;background:var(--card);border:1px solid var(--border);padding:12px;border-radius:8px;}
+.slide-img{width:100%;height:auto;max-height:600px;object-fit:contain;border-radius:6px;background:#000}
+.slide-caption{margin-top:8px;color:var(--text-dim);font-size:0.95rem}
+.slideshow-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:1.4rem}
+.slideshow-btn:hover{border-color:var(--accent);color:var(--accent)}
+.slideshow-controls{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.control-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:6px;cursor:pointer;font-size:0.95rem;font-weight:600}
+.control-btn:hover{border-color:var(--accent);color:var(--accent)}
+.control-btn.playing{color:var(--accent);border-color:var(--accent)}
+.speed-control{display:flex;gap:8px;align-items:center;font-size:0.9rem}
+.speed-control label{color:var(--text-dim)}
+.speed-control select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;cursor:pointer;font-size:0.9rem}
+.speed-control select:hover{border-color:var(--accent)}
+.speed-control select:focus{outline:none;border-color:var(--accent)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;justify-content:center}
+.thumb{width:80px;height:56px;object-fit:cover;border-radius:6px;border:2px solid transparent;cursor:pointer}
+.thumb.active{border-color:var(--accent)}
+@media (max-width:640px){
+  .slide-img{max-height:400px}
+  .slide-window{padding:8px}
+  .thumb{width:64px;height:48px}
+  .slideshow-controls{gap:12px}
+}
   text-align:center;
   padding:30px 24px;
   color:var(--text-dim);

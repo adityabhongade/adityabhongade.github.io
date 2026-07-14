@@ -20,6 +20,7 @@
       <a href="#talks">Talks</a>
       <a href="#memberships">Memberships</a>
       <a href="#services">Services</a>
+      <a href="#media">Media</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -31,7 +32,7 @@
       <aside class="profile-card">
         <img class="avatar" src="photos/pfp.jpg" alt="Aditya Bhongade" onerror="this.src='https://via.placeholder.com/220/1a1f1c/ffffff?text=Photo'">
         <h1 class="name">Aditya Bhongade</h1>
-        <p class="role">Research Intern</p>
+        <p class="role">Research Intern | <a href="https://indiaai.gov.in/" target="_blank" rel="noopener noreferrer">IndiaAI Fellow</a></p>
         <p class="org">IIT Dhanbad</p>
         <div class="socials">
           <a href="mailto:adityabhongade24@gmail.com" title="Email"><svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -118,6 +119,33 @@
   <section id="services" class="content-section">
     <h2>Services</h2>
     <ul id="servicesList" class="entry-list"></ul>
+  </section>
+
+  <section id="media" class="content-section">
+    <h2>Media</h2>
+    <div id="mediaContainer" class="card">
+      <div class="slideshow">
+        <button id="prevBtn" class="slideshow-btn" aria-label="Previous">‹</button>
+        <div class="slide-window">
+          <img id="slideImage" class="slide-img" src="" alt="Gallery image">
+          <div id="slideCaption" class="slide-caption"></div>
+        </div>
+        <button id="nextBtn" class="slideshow-btn" aria-label="Next">›</button>
+      </div>
+      <div class="slideshow-controls">
+        <button id="playPauseBtn" class="control-btn" aria-label="Play/Pause">⏸</button>
+        <div class="speed-control">
+          <label for="speedSelect">Speed:</label>
+          <select id="speedSelect" aria-label="Slideshow speed">
+            <option value="2.5">Very Slow</option>
+            <option value="2">Slow</option>
+            <option value="1.5" selected>Medium</option>
+            <option value="0.75">Fast</option>
+          </select>
+        </div>
+      </div>
+      <div id="thumbs" class="thumbs"></div>
+    </div>
   </section>
 
   <section id="contact" class="content-section">

@@ -310,6 +310,84 @@ async function init(){
       servicesList.appendChild(li);
     });
   }
+
+  // Media (photo slideshow)
+  const photos = await loadJSON('photos/captions.json');
+  const mediaContainer = document.getElementById('mediaContainer');
+  if(photos && mediaContainer){
+    const images = (photos || []).filter(p => p.filename && p.filename !== 'pfp.jpg');
+    const slideImage = document.getElementById('slideImage');
+    const slideCaption = document.getElementById('slideCaption');
+    const thumbs = document.getElementById('thumbs');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const speedSelect = document.getElementById('speedSelect');
+    let current = 0;
+    let autoplayTimer = null;
+    let isPlaying = true;
+    let speed = 1.5;
+
+    function clearAutoplay(){
+      if(autoplayTimer) clearTimeout(autoplayTimer);
+      autoplayTimer = null;
+    }
+
+    function startAutoplay(){
+      clearAutoplay();
+      autoplayTimer = setTimeout(() => {
+        showIndex(current + 1);
+        if(isPlaying) startAutoplay();
+      }, speed * 1000);
+    }
+
+    function togglePlayPause(){
+      isPlaying = !isPlaying;
+      playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
+      playPauseBtn.classList.toggle('playing', isPlaying);
+      if(isPlaying) startAutoplay();
+      else clearAutoplay();
+    }
+
+    function showIndex(i){
+      if(!images.length) return;
+      current = (i + images.length) % images.length;
+      const img = images[current];
+      slideImage.src = 'photos/' + img.filename;
+      slideImage.alt = img.caption || img.filename;
+      slideCaption.innerHTML = img.caption || '';
+      Array.from(thumbs.children).forEach((t, idx) => t.classList.toggle('active', idx === current));
+      if(isPlaying) startAutoplay();
+    }
+
+    images.forEach((img, idx) => {
+      const t = document.createElement('img');
+      t.src = 'photos/' + img.filename;
+      t.className = 'thumb';
+      t.alt = img.caption || img.filename;
+      t.addEventListener('click', () => showIndex(idx));
+      thumbs.appendChild(t);
+    });
+
+    prevBtn?.addEventListener('click', () => showIndex(current - 1));
+    nextBtn?.addEventListener('click', () => showIndex(current + 1));
+    playPauseBtn?.addEventListener('click', togglePlayPause);
+    speedSelect?.addEventListener('change', (e) => {
+      speed = parseFloat(e.target.value);
+      if(isPlaying) startAutoplay();
+    });
+
+    // keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowLeft') showIndex(current - 1);
+      if(e.key === 'ArrowRight') showIndex(current + 1);
+      if(e.key === ' ') { e.preventDefault(); togglePlayPause(); }
+    });
+
+    playPauseBtn.classList.add('playing');
+    showIndex(0);
+    startAutoplay();
+  }
 }
 
 init();
