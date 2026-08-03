@@ -180,7 +180,7 @@ async function init(){
   });
 
   // Talks
-  const talks = await loadJSON('talks.json');
+  const talks = await loadJSON('jsons/talks.json');
   const talksList = document.getElementById('talksList');
   (talks || []).forEach(t => {
     const li = el('li');
@@ -197,7 +197,7 @@ async function init(){
   });
 
   // News (updates)
-  const news = await loadJSON('updates.json');
+  const news = await loadJSON('jsons/updates.json');
   const newsList = document.getElementById('newsList');
   (news || []).forEach(n => {
     const li = el('li');
@@ -208,7 +208,7 @@ async function init(){
   });
 
   // Experience
-  const experience = await loadJSON('experience.json');
+  const experience = await loadJSON('jsons/experience.json');
   const experienceList = document.getElementById('experienceList');
   (experience || []).forEach(ex => {
     const li = el('li');
@@ -221,7 +221,7 @@ async function init(){
   });
 
   // Projects
-  const projects = await loadJSON('projects.json');
+  const projects = await loadJSON('jsons/projects.json');
   const projectsList = document.getElementById('projectsList');
   (projects || []).forEach(pr => {
     const li = el('li');
@@ -239,7 +239,7 @@ async function init(){
   });
 
   // Achievements
-  const achievements = await loadJSON('achievements.json');
+  const achievements = await loadJSON('jsons/achievements.json');
   const achievementsList = document.getElementById('achievementsList');
   if(achievementsList){
     (achievements || []).forEach(a => {
@@ -254,7 +254,7 @@ async function init(){
   }
 
   // Certifications
-  const certifications = await loadJSON('certifications.json');
+  const certifications = await loadJSON('jsons/certifications.json');
   const certificationsList = document.getElementById('certificationsList');
   if(certificationsList){
     (certifications || []).forEach(c => {
@@ -273,7 +273,7 @@ async function init(){
   }
 
   // Memberships
-  const memberships = await loadJSON('memberships.json');
+  const memberships = await loadJSON('jsons/memberships.json');
   const membershipsList = document.getElementById('membershipsList');
   if(membershipsList){
     (memberships || []).forEach(m => {
@@ -292,7 +292,7 @@ async function init(){
   }
 
   // Services
-  const services = await loadJSON('services.json');
+  const services = await loadJSON('jsons/services.json');
   const servicesList = document.getElementById('servicesList');
   if(servicesList){
     (services || []).forEach(s => {
@@ -312,7 +312,7 @@ async function init(){
   }
 
   // Media (photo slideshow)
-  const photos = await loadJSON('photos/captions.json');
+  const photos = await loadJSON('jsons/photos/captions.json');
   const mediaContainer = document.getElementById('mediaContainer');
   if(photos && mediaContainer){
     const images = (photos || []).filter(p => p.filename && p.filename !== 'pfp.jpg');
