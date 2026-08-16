@@ -118,6 +118,8 @@ a:hover{text-decoration:underline;}
 .edu-list li{margin-bottom:12px;}
 .edu-list .deg{display:block;color:var(--text);font-weight:600;}
 .edu-list .inst{display:block;color:var(--text-dim);font-size:0.9rem;}
+/* Year display for education entries */
+.edu-list .year{display:block;color:var(--text-dim);font-size:0.9rem;margin-top:2px;line-height:1}
 
 /* Content sections */
 .content-section{
@@ -162,6 +164,8 @@ a:hover{text-decoration:underline;}
   .thumb{width:64px;height:48px}
   .slideshow-controls{gap:12px}
 }
+/* Footer */
+footer{
   text-align:center;
   padding:30px 24px;
   color:var(--text-dim);
