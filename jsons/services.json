@@ -1,6 +1,15 @@
 [
   {
     "title": "Reviewer",
+    "organization": "ICVGIP 2026",
+    "duration": "Aug 2026 - Present",
+    "points": [
+      "Reviewing papers in AI, CV and NLP."
+    ],
+    "link": ""
+  },
+  {
+    "title": "Reviewer",
     "organization": "IEEE 1st International Conference on Instrumentation (INSTCon 2026), NIT Rourkela",
     "duration": "Feb 2026 - Jun 2026",
     "points": [
