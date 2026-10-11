@@ -1,5 +1,27 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Theme toggle
+(function(){
+  const toggle = document.getElementById('themeToggle');
+  function updateIcon(){
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    toggle.textContent = isLight ? '🌙' : '☀️';
+    toggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+  }
+  updateIcon();
+  toggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if(isLight){
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+    updateIcon();
+  });
+})();
+
 function el(tag, cls, html){
   const e = document.createElement(tag);
   if(cls) e.className = cls;
@@ -32,15 +54,21 @@ function parseAuthorsAPA(authorField){
   if(!authorField) return 'Anonymous';
   const authors = authorField.split(/\s+and\s+/i).map(name => {
     name = name.trim();
+    let formatted = '';
     if(name.includes(',')){
       const [last, first] = name.split(',').map(part => part.trim());
       const initials = first.split(/\s+/).map(n => n[0]?.toUpperCase() + '.').join(' ');
-      return `${last}, ${initials}`;
+      formatted = `${last}, ${initials}`;
+    } else {
+      const parts = name.split(/\s+/);
+      const last = parts.pop();
+      const initials = parts.map(part => part[0]?.toUpperCase() + '.').join(' ');
+      formatted = `${last}, ${initials}`;
     }
-    const parts = name.split(/\s+/);
-    const last = parts.pop();
-    const initials = parts.map(part => part[0]?.toUpperCase() + '.').join(' ');
-    return `${last}, ${initials}`;
+    if(/bhongade/i.test(formatted)){
+      return `<span class="author-self">${formatted}</span>`;
+    }
+    return formatted;
   });
   if(authors.length === 1) return authors[0];
   if(authors.length === 2) return `${authors[0]} & ${authors[1]}`;
@@ -147,6 +175,7 @@ async function init(){
   // Publications
   const publications = await loadBibtex('pubs.bib');
   const publicationsList = document.getElementById('publicationsList');
+  if(publications && publications.length) publicationsList.innerHTML = '';
   (publications || []).forEach(p => {
     const li = el('li');
     const title = p.title || p.booktitle || p.journal || p.key;
@@ -182,6 +211,7 @@ async function init(){
   // Talks
   const talks = await loadJSON('jsons/talks.json');
   const talksList = document.getElementById('talksList');
+  if(talks && talks.length) talksList.innerHTML = '';
   (talks || []).forEach(t => {
     const li = el('li');
     if(t.link){
@@ -199,6 +229,7 @@ async function init(){
   // News (updates)
   const news = await loadJSON('jsons/updates.json');
   const newsList = document.getElementById('newsList');
+  if(news && news.length) newsList.innerHTML = '';
   (news || []).forEach(n => {
     const li = el('li');
     li.appendChild(el('span','entry-title', n.title));
@@ -210,6 +241,7 @@ async function init(){
   // Experience
   const experience = await loadJSON('jsons/experience.json');
   const experienceList = document.getElementById('experienceList');
+  if(experience && experience.length) experienceList.innerHTML = '';
   (experience || []).forEach(ex => {
     const li = el('li');
     li.appendChild(el('span','entry-title', [ex.title, ex.organization].filter(Boolean).join(' — ')));
@@ -223,6 +255,7 @@ async function init(){
   // Projects
   const projects = await loadJSON('jsons/projects.json');
   const projectsList = document.getElementById('projectsList');
+  if(projects && projects.length) projectsList.innerHTML = '';
   (projects || []).forEach(pr => {
     const li = el('li');
     if(pr.link){
@@ -242,6 +275,7 @@ async function init(){
   const achievements = await loadJSON('jsons/achievements.json');
   const achievementsList = document.getElementById('achievementsList');
   if(achievementsList){
+    if(achievements && achievements.length) achievementsList.innerHTML = '';
     (achievements || []).forEach(a => {
       const li = el('li');
       li.appendChild(el('span','entry-title', a.title));
@@ -257,6 +291,7 @@ async function init(){
   const certifications = await loadJSON('jsons/certifications.json');
   const certificationsList = document.getElementById('certificationsList');
   if(certificationsList){
+    if(certifications && certifications.length) certificationsList.innerHTML = '';
     (certifications || []).forEach(c => {
       const li = el('li');
       if(c.link){
@@ -276,6 +311,7 @@ async function init(){
   const memberships = await loadJSON('jsons/memberships.json');
   const membershipsList = document.getElementById('membershipsList');
   if(membershipsList){
+    if(memberships && memberships.length) membershipsList.innerHTML = '';
     (memberships || []).forEach(m => {
       const li = el('li');
       if(m.link){
@@ -295,6 +331,7 @@ async function init(){
   const services = await loadJSON('jsons/services.json');
   const servicesList = document.getElementById('servicesList');
   if(servicesList){
+    if(services && services.length) servicesList.innerHTML = '';
     (services || []).forEach(s => {
       const li = el('li');
       if(s.link){

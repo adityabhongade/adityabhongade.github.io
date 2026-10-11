@@ -1,6 +1,15 @@
 [
   {
     "title": "Reviewer",
+    "organization": "ICASSP 2027",
+    "duration": "Sept 2026 - Present",
+    "points": [
+      "Reviewing papers in ML and AI."
+    ],
+    "link": ""
+  },
+  {
+    "title": "Reviewer",
     "organization": "ICVGIP 2026",
     "duration": "Aug 2026 - Present",
     "points": [
