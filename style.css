@@ -8,13 +8,13 @@
   --accent:#6fae8f;
 }
 [data-theme="light"]{
-  --bg:#f7f8fa;
-  --bg-alt:#edf0f3;
-  --card:#ffffff;
+  --bg:#f4f1e8;
+  --bg-alt:#ece8dd;
+  --card:#fbf9f3;
   --border:#d1d5db;
   --text:#1a1a2e;
   --text-dim:#5a6270;
-  --accent:#1a6ed8;
+  --accent:#84252f;
 }
 
 *{box-sizing:border-box;}
