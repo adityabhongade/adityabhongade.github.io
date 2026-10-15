@@ -195,7 +195,7 @@ async function init(){
 
     const authors = parseAuthorsAPA(p.author);
     const year = p.year ? `(${p.year}).` : '(n.d.).';
-    const entryTitle = p.title ? `${sentenceCase(p.title)}.` : '';
+    const entryTitle = p.title ? `${p.title}.` : '';
     const source = p.journal ? `<em>${p.journal}</em>.` : p.booktitle ? `<em>${p.booktitle}</em>.` : '';
     const doiUrl = p.doi ? (p.doi.startsWith('http') ? p.doi : `https://doi.org/${p.doi}`) : null;
     const linkLine = doiUrl || url ? ` ${doiUrl || url}` : '';
@@ -276,7 +276,29 @@ async function init(){
   const achievementsList = document.getElementById('achievementsList');
   if(achievementsList){
     if(achievements && achievements.length) achievementsList.innerHTML = '';
+    let rankerGroupAdded = false;
     (achievements || []).forEach(a => {
+      if(a.title && a.title.includes('Ranker')){
+        if(rankerGroupAdded) return;
+        rankerGroupAdded = true;
+
+        const rankerRecords = achievements.filter(achievement => achievement.title && achievement.title.includes('Ranker'));
+        const rankerItem = el('li');
+        rankerItem.appendChild(el('span','entry-title','Ranker'));
+        const organization = [...new Set(rankerRecords.map(record => record.organization).filter(Boolean))];
+        if(organization.length) rankerItem.appendChild(el('span','entry-meta', organization.join(' — ')));
+        const rankerList = el('ul','entry-points');
+        rankerRecords.forEach(record => {
+          const semesterItem = el('li');
+          semesterItem.appendChild(el('span','entry-title', record.title));
+          if(record.description) semesterItem.appendChild(el('span','entry-desc', record.description));
+          rankerList.appendChild(semesterItem);
+        });
+        rankerItem.appendChild(rankerList);
+        achievementsList.appendChild(rankerItem);
+        return;
+      }
+
       const li = el('li');
       li.appendChild(el('span','entry-title', a.title));
       li.appendChild(el('span','entry-meta', a.organization || ''));
@@ -332,7 +354,34 @@ async function init(){
   const servicesList = document.getElementById('servicesList');
   if(servicesList){
     if(services && services.length) servicesList.innerHTML = '';
+    let reviewerGroupAdded = false;
     (services || []).forEach(s => {
+      if(s.title === 'Reviewer'){
+        if(reviewerGroupAdded) return;
+        reviewerGroupAdded = true;
+
+        const reviewerRecords = services.filter(service => service.title === 'Reviewer');
+        const reviewerItem = el('li');
+        reviewerItem.appendChild(el('span','entry-title','Reviewer'));
+        const reviewerList = el('ul','entry-points');
+        reviewerRecords.forEach(reviewer => {
+          const conferenceItem = el('li');
+          if(reviewer.link){
+            const link = el('a', null, reviewer.organization);
+            link.href = reviewer.link; link.target = '_blank'; link.rel = 'noopener';
+            conferenceItem.appendChild(link);
+          } else {
+            conferenceItem.appendChild(document.createTextNode(reviewer.organization || ''));
+          }
+          if(reviewer.duration) conferenceItem.appendChild(el('span','entry-meta', reviewer.duration));
+          (reviewer.points || []).forEach(point => conferenceItem.appendChild(el('span','entry-desc', point)));
+          reviewerList.appendChild(conferenceItem);
+        });
+        reviewerItem.appendChild(reviewerList);
+        servicesList.appendChild(reviewerItem);
+        return;
+      }
+
       const li = el('li');
       if(s.link){
         const a = el('a','entry-title', s.title);

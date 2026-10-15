@@ -4,6 +4,6 @@
     "duration": "December 2024 - December 2025",
     "authors": "Aditya Bhongade",
     "venue": "UG Project",
-    "description": "LivSafe is an application for doctors and hospitals aiding in automatic grading of liver fibrosis using patients' liver ultrasound scans. It features LivNet trained via LivSCP, and a low-rank adapted Meditron 7B with NedRAG and llama.cpp."
+    "description": "LivSafe is an application for doctors and hospitals aiding in automatic grading of liver fibrosis using patients' liver ultrasound scans. It features LivNet trained via <a href=\"https://www.mdpi.com/2075-4418/15/24/3226\" target=\"_blank\" rel=\"nofollow\">LivSCP</a>, and MedGemma 27B with MedRAG and llama.cpp."
   }
 ]
