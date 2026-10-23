@@ -3,7 +3,7 @@
     "title": "LivSafe: Deep Learning-based Liver Fibrosis Grading System with LLM-based Conversational Support",
     "duration": "December 2024 - December 2025",
     "authors": "Aditya Bhongade",
-    "venue": "UG Project",
-    "description": "LivSafe is an application for doctors and hospitals aiding in automatic grading of liver fibrosis using patients' liver ultrasound scans. It features LivNet trained via <a href=\"https://www.mdpi.com/2075-4418/15/24/3226\" target=\"_blank\" rel=\"nofollow\">LivSCP</a>, and MedGemma 27B with MedRAG and llama.cpp."
+    "venue": "Bachelor's Project",
+    "description": "LivSafe is an application for doctors and hospitals aiding in automatic grading of liver fibrosis using patients' liver ultrasound scans. It features a ViT trained via <a href=\"https://www.mdpi.com/2075-4418/15/24/3226\" target=\"_blank\" rel=\"nofollow\">LivSCP</a>, and MedGemma 27B with MedRAG and llama.cpp.<br>[<a class=\"button\" href=\"https://adityabhongade.github.io/LivSafe_Demo\" target=\"_blank\" rel=\"nofollow\">Demo</a>] | [<a class=\"button\" href=\"https://mdpi.com/2075-4418/15/24/3226\" target=\"_blank\" rel=\"nofollow\">Paper</a>] | [<a class=\"button\" href=\"https://www.youtube.com/watch?v=example\" target=\"_blank\" rel=\"nofollow\">Video</a>]"
   }
 ]
